@@ -2,7 +2,7 @@
 
 Realtime Chat-App
 Dies ist ein Gemeinschaftsprojekt von: Ilona Görgens,
-                                       Kaho Ayoama,
+                                       Kaho Aoyama,
                                        und Marcus Bieber
 
 Im Rahmen unseres Praxis-Projekts, während unserer Weiterbildung zum Dev/Ops- und Cloud-Engineer,
