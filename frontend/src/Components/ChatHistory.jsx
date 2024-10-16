@@ -7,11 +7,11 @@ function ChatHistory() {
   ]
   return (
     <div style={{
-      height: '300px',
+      height: '700px',
       overflowY: 'scroll',
       padding: '10px',
       backgroundColor: '#F5F5F5',
-      borderRadius: '10px',
+      borderRadius: '20px',
       border: '1px solid #ccc',
     }}>
       {messages.map((msg) => (

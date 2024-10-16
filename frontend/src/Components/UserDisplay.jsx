@@ -19,7 +19,7 @@ function UserDisplay() {
 
   return (
     <div>
-      <h2>Verbunden Benutzer:</h2>
+      <h2>Benutzer:</h2>
       <ul>
         {users.map(user => (
           <li key={user.id}>{user.name}</li>

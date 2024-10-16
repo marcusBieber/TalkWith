@@ -48,7 +48,13 @@ function App() {
   }}>
     <ChatHistory />
     {/* Texteingabe */}
-    <div >
+
+    <div className="flex-grow-1 d-flex flex-column" style={{
+    border: 'none',
+    borderRadius: '5px',
+    backgroundColor: '#D9D9D9',
+    padding: '10px',
+    overflowY: 'auto'}}>
     <TextInput />
     </div>
       </div>

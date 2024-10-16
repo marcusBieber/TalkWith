@@ -1,31 +1,52 @@
 function Login() {
   return (
-    <div >
-      <form>
-        <div>
-          <label style={{ marginBottom: '5px'}}>Username:</label>
-          <input type="text" name="username" required style={{
-              borderRadius: '10px',
-              padding: '0',
-              border: '1px solid #ccc',}}/>
+    <div className="d-flex justify-content-center align-items-center vh-10">
+      <form style={{ width: "300px" }}>
+        <div className="mb-2 d-flex align-items-center">
+          <i className="fas fa-user" style={{ marginRight: "10px" }}></i>
+          <input
+            placeholder="Username"
+            type="text"
+            name="username"
+            required
+            style={{
+              borderRadius: "10px",
+              padding: "0px 0px 0px 8px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </div>
+        <div className="mb-2 d-flex align-items-center">
+          <i className="fas fa-lock" style={{ marginRight: "10px" }}></i>
+          <input
+            placeholder="Password"
+            type="password"
+            name="password"
+            required
+            style={{
+              borderRadius: "10px",
+              padding: "0px 0px 0px 8px",
+              border: "1px solid #ccc",
+            }}
+          />
         </div>
         <div>
-          <label>Password:</label>
-          <input type="text" name="password" required style={{
-              borderRadius: '10px',
-              padding: '0',
-              border: '1px solid #ccc',
-            }}/>
+          <button
+            type="submit"
+            className="btn btn-light"
+            style={{
+              borderRadius: "20px",
+              backgroundColor: "#F5F4F4",
+              border: "none",
+              color: "#565353",
+              padding: "2px 20px",
+              marginLeft: "75px",
+              cursor: "pointer",
+            }}
+          >
+            Login
+          </button>
         </div>
-          <button type="submit" className="btn"
-        style={{
-          borderRadius: '20px',
-          backgroundColor: '#F5F4F4',
-          border: 'none',
-          color: '#565353',
-          padding: '2px 20px',
-          marginLeft: '10px'
-        }}>Login</button>
       </form>
     </div>
   );
