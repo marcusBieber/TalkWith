@@ -7,6 +7,7 @@ function Login() {
           <input
             placeholder="Username"
             type="text"
+            autoComplete="on"
             name="username"
             required
             style={{
