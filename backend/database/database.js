@@ -1,9 +1,8 @@
 import sqlite3 from "sqlite3";
 
-//Path to the database file
 const dbFile = "./database.db";
 
-export function initializeDatabase(){
+function initializeDatabase(){
 	const db = new sqlite3.Database(dbFile, (err) => {
 		if (err) {
 			console.error("Error opening database:", err.message);
@@ -23,12 +22,13 @@ export function initializeDatabase(){
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				text TEXT,
 				date TEXT,
-				userid INTEGER FOREIGN KEY REFERENCES users(id)
+				userid INTEGER,
+				FOREIGN KEY (userid) REFERENCES users(id)
 			)`,(err) => {
 				if (err){
 					console.log("Error creating table:", err.message);
 				}else{
-					console.log("Table `chatmessages` created or already exsits.");
+					console.log("Table `chatmessages` created or already exists.");
 				}
 			});
 		};
@@ -49,6 +49,20 @@ export function addChatMessage(userid, text){
 	});
 }
 
+
+// Get all chat messages
+// Returns an array of chat messages
+export function getChatMessages(){
+	return new Promise((resolve, reject) => {
+		db.all(`SELECT * FROM chatmessages`, (err, rows) => {
+			if(err){
+				reject(err);
+			}else{
+				resolve(rows);
+			}
+		})
+	})
+}
 // Add a new user
 // Returns the id of the user
 export function addUser(username){
@@ -59,18 +73,6 @@ export function addUser(username){
 			console.log("Data inserted successfully.");
 		}
 	})
-}
-
-// Get all chat messages
-// Returns an array of chat messages
-export function getChatMessages(){
-	db.run(`INCERT INTO chatmessages(text, date)VALUES(?, ?)`, [text, new Date()], (err) => {
-		if(err){
-			console.log("Error inserting data:", err.message);
-		}else{
-			console.log("Data inserted successfully.");
-		}
-		})
 }
 
 // Delete a user
