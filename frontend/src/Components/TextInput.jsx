@@ -4,6 +4,7 @@ function TextInput() {
       <input 
         type="text" 
         style={{
+          backgroundColor: '#EAEAEA',
           borderRadius: '20px',
           padding: '40px 50px 40px 20px',
           border: 'none',
@@ -18,10 +19,10 @@ function TextInput() {
           top: '50%',
           transform: 'translateY(-50%)',
           borderRadius: '20px',
-          backgroundColor: '#F5F4F4',
+          backgroundColor: '#D9D9D9',
           border: 'none', 
           color: '#565353',
-          padding: '5px 20px',
+          padding: '2px 20px',
         }}>
         Send
       </button>
