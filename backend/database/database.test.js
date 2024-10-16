@@ -8,7 +8,12 @@ beforeEach(async () => {
 
 // Test if we can add a chat message
 test('addChatMessage', async () => {
-    const userid = 1;
+    // Create a new user
+    const username = "testuser";
+    await database.addUser(username); // Wait for the user to be added
+    const users = await database.getUserByName(username); // Wait for users to be fetched
+    const userid = users[0].id;
+    
     const text = "test message";
     
     await addChatMessage(userid, text); // Wait for the chat message to be added
@@ -61,7 +66,12 @@ test('renameUser', async () => {
 
 // Test if we can delete a single chat message
 test('deleteChatMessage', async () => {
-    const userid = 1;
+    // Create a new user
+    const username = "testuser";
+    await database.addUser(username); // Wait for the user to be added
+    const users = await database.getUserByName(username); // Wait for users to be fetched
+    const userid = users[0].id;
+    
     const text = "test message";
     await database.addChatMessage(userid, text); // Wait for the chat message to be added
     

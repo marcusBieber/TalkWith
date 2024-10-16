@@ -8,6 +8,14 @@ function initializeDatabase() {
             console.error("Error opening database:", err.message);
         } else {
             console.log("Connected to the database.");
+
+			// Enable foreign key support
+            db.run(`PRAGMA foreign_keys = ON;`, (err) => {
+                if (err) {
+                    console.error("Error enabling foreign keys:", err.message);
+                }
+            });
+
             db.run(`CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT UNIQUE
