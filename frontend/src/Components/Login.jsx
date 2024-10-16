@@ -36,7 +36,7 @@ function Login() {
             className="btn btn-light"
             style={{
               borderRadius: "20px",
-              backgroundColor: "#F5F4F4",
+              backgroundColor: "#EAEAEA",
               border: "none",
               color: "#565353",
               padding: "2px 20px",
