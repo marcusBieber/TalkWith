@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { ColorContext } from "./ColorSwitcher";
 
 const dummyUsers = [
   { id: 1, name: "Kaho" },
@@ -6,6 +7,7 @@ const dummyUsers = [
   { id: 3, name: "Ilona" },
 ];
 function UserDisplay() {
+  const { darkMode } = useContext(ColorContext);
   const [users, setUsers] = useState([]);
 
   const fetchUsers = () => {
@@ -18,20 +20,34 @@ function UserDisplay() {
 
   return (
     <div className="d-flex flex-column align-items-center">
-      <h2 style={{ fontFamily: "Inter, sans-serif"}} >Benutzer</h2>
+      <h2
+        style={{
+          fontFamily: "Inter, sans-serif",
+          backgroundcolor: darkMode ? "#ffffff" : "#000000",
+          color: darkMode ? "#ffffff" : "#000000",
+
+        }}
+      >
+        Benutzer
+      </h2>
       <div className="list-group">
         {users.map((user) => (
           <div
             key={user.id}
-            className="list-group-item d-flex justify-content-between align-items-center" style={{backgroundColor: '#EAEAEA',}}
+            className="list-group-item d-flex justify-content-between align-items-center"
+            style={{
+              backgroundColor: darkMode ? "#565656" : "#EAEAEA",
+              color: darkMode ? "#ffffff" : "#000000",
+              boxShadow: darkMode ? "0px 4px 10px rgba(0, 0, 0, 0.5)" : "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            }}
           >
             <span className="fw-bold">{user.name}</span>
             <i
               className="fas fa-user-circle"
               style={{
-                padding: '0 50px 0 50px',
+                padding: "0 50px 0 50px",
                 fontSize: "24px",
-                color: "#007bff",
+                color: darkMode ? '#EAEAEA' : '#d9d9d9',
               }}
             ></i>
           </div>
