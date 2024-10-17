@@ -55,6 +55,8 @@ export function addChatMessage(userid, text) {
                 return reject(`Error starting transaction: ${err.message}`);
             }
         });
+		// TODO Reject if no userid or text are provided
+		// FIXME The date is not sortable
         db.run(`INSERT INTO chatmessages (userid, text, date) VALUES (?, ?, ?)`, [userid, text, new Date().toString()], (err) => {
             if (err) {
                 db.run(`ROLLBACK`, () => {
@@ -76,6 +78,7 @@ export function addChatMessage(userid, text) {
 // Get chat messages (last 100 by default)
 export function getChatMessages(number=100) {
     return new Promise((resolve, reject) => {
+		// TODO Reject if number is not a number or negative
         db.all(`SELECT * FROM chatmessages ORDER BY date LIMIT ${number}`, (err, rows) => {
             if (err) {
                 return reject(`Error fetching data: ${err.message}`);
@@ -89,6 +92,7 @@ export function getChatMessages(number=100) {
 // Add a new user
 export function addUser(username) {
     return new Promise((resolve, reject) => {
+		// TODO Reject if username is empty
         db.run(`BEGIN TRANSACTION`, (err) => {
             if (err) {
                 return reject(`Error starting transaction: ${err.message}`);
@@ -120,6 +124,7 @@ export function addUser(username) {
 // Get user by username
 export function getUserByName(username) {
     return new Promise((resolve, reject) => {
+		// TODO Reject if username is empty
         db.all(`SELECT * FROM users WHERE username = ?`, [username], (err, rows) => {
             if (err) {
                 return reject(`Error fetching users: ${err.message}`);
@@ -132,6 +137,7 @@ export function getUserByName(username) {
 // Delete a user
 export function deleteUser(userid) {
     return new Promise((resolve, reject) => {
+		// TODO Reject if userid is not a number or negative
         db.run(`DELETE FROM users WHERE id = ?`, [userid], (err) => {
             if (err) {
                 reject(`Error deleting data: ${err.message}`);
@@ -145,6 +151,8 @@ export function deleteUser(userid) {
 // Rename user
 export function renameUser(userid, newUsername) {
     return new Promise((resolve, reject) => {
+		// TODO Reject if newUsername is empty
+		// TODO Reject if userid is not a number or negative
         db.get(`SELECT 1 FROM users WHERE username = ?`, [newUsername], (err, row) => {
             if (err) {
                 return reject(`Error checking username: ${err.message}`);
@@ -167,6 +175,7 @@ export function renameUser(userid, newUsername) {
 // Delete chat message
 export function deleteChatMessage(chatmessageid) {
     return new Promise((resolve, reject) => {
+		// TODO Reject if chatmessageid is not a number or negative
         db.run(`DELETE FROM chatmessages WHERE id = ?`, [chatmessageid], (err) => {
             if (err) {
                 reject(`Error deleting data: ${err.message}`);
