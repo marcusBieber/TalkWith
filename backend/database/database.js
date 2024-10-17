@@ -18,7 +18,8 @@ function initializeDatabase() {
 
             db.run(`CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT UNIQUE
+                username TEXT UNIQUE,
+                password TEXT
             )`, (err) => {
                 if (err) {
                     console.error("Error creating table:", err.message);
@@ -78,12 +79,13 @@ export function getChatMessages(number=100) {
 }
 
 // Add a new user
-export function addUser(username) {
+export function addUser(username, password) {
     return new Promise((resolve, reject) => {
-        if (!username) {
-            return reject("Username is required.");
+        if (!username || !password) {
+            return reject("Username and password are required.");
         }
-        db.run(`INSERT INTO users (username) VALUES (?)`, [username], (err) => {
+        // TODO Password should be hashed
+        db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, [username, password], (err) => {
             if (err) {
                 return reject(`Error inserting data: ${err.message}`);
             }

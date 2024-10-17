@@ -10,7 +10,8 @@ beforeEach(async () => {
 test('addChatMessage', async () => {
     // Create a new user
     const username = "testuser";
-    await database.addUser(username); // Wait for the user to be added
+    const password = "password";
+    await database.addUser(username, password); // Wait for the user to be added
     const users = await database.getUserByName(username); // Wait for users to be fetched
     const userid = users[0].id;
     
@@ -27,8 +28,9 @@ test('addChatMessage', async () => {
 // Test if we can add a new user
 test('addUser', async () => {
     const username = "testuser";
+    const password = "password";
     
-    await database.addUser(username); // Wait for the user to be added
+    await database.addUser(username, password); // Wait for the user to be added
     const users = await database.getUserByName(username); // Wait for users to be fetched
     
     expect(users.length).toBe(1);
@@ -38,7 +40,8 @@ test('addUser', async () => {
 // Test if we can delete a user
 test('deleteUser', async () => {
     const username = "testuser";
-    await database.addUser(username); // Wait for the user to be added
+    const password = "password";
+    await database.addUser(username, password); // Wait for the user to be added
     
     let users = await database.getUserByName(username); // Wait for users to be fetched
     const userid = users[0].id;
@@ -52,7 +55,8 @@ test('deleteUser', async () => {
 // Test if we can rename a user
 test('renameUser', async () => {
     const username = "testuser";
-    await database.addUser(username); // Wait for the user to be added
+    const password = "password";
+    await database.addUser(username, password); // Wait for the user to be added
     
     let users = await database.getUserByName(username); // Wait for users to be fetched
     const userid = users[0].id;
@@ -68,7 +72,8 @@ test('renameUser', async () => {
 test('deleteChatMessage', async () => {
     // Create a new user
     const username = "testuser";
-    await database.addUser(username); // Wait for the user to be added
+    const password = "password";
+    await database.addUser(username, password); // Wait for the user to be added
     const users = await database.getUserByName(username); // Wait for users to be fetched
     const userid = users[0].id;
     
