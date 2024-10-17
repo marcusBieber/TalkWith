@@ -50,27 +50,15 @@ const db = initializeDatabase();
 // Add a new chat message
 export function addChatMessage(userid, text) {
     return new Promise((resolve, reject) => {
-        db.run(`BEGIN TRANSACTION`, (err) => {
+        if (!userid || !text) {
+            return reject("User ID and text are required.");
+        }
+        db.run(`INSERT INTO chatmessages (userid, text, date) VALUES (?, ?, ?)`, 
+               [userid, text, new Date().toISOString()], (err) => {
             if (err) {
-                return reject(`Error starting transaction: ${err.message}`);
+                return reject(`Error inserting data: ${err.message}`);
             }
-        });
-		// TODO Reject if no userid or text are provided
-		// FIXME The date is not sortable
-        db.run(`INSERT INTO chatmessages (userid, text, date) VALUES (?, ?, ?)`, [userid, text, new Date().toString()], (err) => {
-            if (err) {
-                db.run(`ROLLBACK`, () => {
-                    reject(`Error inserting data: ${err.message}`);
-                });
-            } else {
-                db.run(`COMMIT`, (err) => {
-                    if (err) {
-                        reject(`Error committing insert: ${err.message}`);
-                    } else {
-                        resolve("Data inserted successfully.");
-                    }
-                });
-            }
+            resolve("Data inserted successfully.");
         });
     });
 }
@@ -92,33 +80,17 @@ export function getChatMessages(number=100) {
 // Add a new user
 export function addUser(username) {
     return new Promise((resolve, reject) => {
-		// TODO Reject if username is empty
-        db.run(`BEGIN TRANSACTION`, (err) => {
+        if (!username) {
+            return reject("Username is required.");
+        }
+        db.run(`INSERT INTO users (username) VALUES (?)`, [username], (err) => {
             if (err) {
-                return reject(`Error starting transaction: ${err.message}`);
+                return reject(`Error inserting data: ${err.message}`);
             }
-
-            // Insert the new user
-            db.run(`INSERT INTO users (username) VALUES (?)`, [username], (err) => {
-                if (err) {
-                    // Rollback transaction on error
-                    return db.run(`ROLLBACK`, () => {
-                        return reject(`Error inserting data: ${err.message}`);
-                    });
-                }
-
-                // Commit the transaction
-                db.run(`COMMIT`, (err) => {
-                    if (err) {
-                        return reject(`Error committing insert: ${err.message}`);
-                    }
-                    resolve("Data inserted successfully.");
-                });
-            });
+            resolve("User added successfully.");
         });
     });
 }
-
 
 // Get a single user
 // Get user by username
@@ -189,39 +161,35 @@ export function deleteChatMessage(chatmessageid) {
 // Reset the database contents
 export function resetDatabase() {
     return new Promise((resolve, reject) => {
-        db.run(`BEGIN TRANSACTION`, (err) => {
-            if (err) {
-                return reject(`Error starting transaction: ${err.message}`);
-            }
-
-            // First delete chat messages
-            db.run(`DELETE FROM chatmessages`, (err) => {
+        db.serialize(() => {
+            db.run(`BEGIN TRANSACTION`, (err) => {
                 if (err) {
-                    // Rollback if there is an error
-                    return db.run(`ROLLBACK`, () => {
-                        return reject(`Error deleting chat messages: ${err.message}`);
-                    });
+                    return reject(`Error starting transaction: ${err.message}`);
                 }
 
-                // Now delete users
-                db.run(`DELETE FROM users`, (err) => {
+                db.run(`DELETE FROM chatmessages`, (err) => {
                     if (err) {
-                        // Rollback if there is an error
                         return db.run(`ROLLBACK`, () => {
-                            return reject(`Error deleting users: ${err.message}`);
+                            reject(`Error deleting chat messages: ${err.message}`);
                         });
                     }
 
-                    // Commit the transaction if both deletes were successful
-                    db.run(`COMMIT`, (err) => {
+                    db.run(`DELETE FROM users`, (err) => {
                         if (err) {
-                            return reject(`Error committing database reset: ${err.message}`);
+                            return db.run(`ROLLBACK`, () => {
+                                reject(`Error deleting users: ${err.message}`);
+                            });
                         }
-                        resolve("Database reset committed successfully.");
+
+                        db.run(`COMMIT`, (err) => {
+                            if (err) {
+                                return reject(`Error committing database reset: ${err.message}`);
+                            }
+                            resolve("Database reset successfully.");
+                        });
                     });
                 });
             });
         });
     });
 }
-
