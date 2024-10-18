@@ -1,23 +1,30 @@
 import io from "socket.io-client";
-import { useEffect, useContext } from "react";
 import { ColorContext } from "./ColorSwitcher";
+import { useEffect, useState, useRef, useContext } from "react";
 
 function TextInput() {
+  const [message, setMessage] = useState("");
+  const socketRef = useRef(null);
   const { darkMode } = useContext(ColorContext);
-  const socket = io("http://localhost:3000");
 
-  socket.on("connect_error", (err) => {
-    console.error(`Verbindungsfehler: ${err.message}`);
-  });
+  useEffect(() => {
+    socketRef.current = io("http://localhost:3000");
+
+    socketRef.current.on("connection_error", (err) => {
+      console.error(`Verbindungsfehler: ${err.message}`);
+    });
+
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, []);
 
   const sendMessage = () => {
-    socket.emit("send_message", { message: "Hallo aus dem Frontend" });
+    if (socketRef.current) {
+      socketRef.current.emit("send_message", { message });
+      setMessage("");
+    }
   };
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      alert(data.message);
-    });
-  }, [socket]);
 
   return (
     <div style={{ position: "relative", width: "100%" }}>
@@ -25,6 +32,8 @@ function TextInput() {
         type="text"
         id="input"
         placeholder="schreib' eine Nachricht..."
+        value={message}
+        onChange={(event) => setMessage(event.target.value)}
         style={{
           backgroundColor: darkMode ? "#565656" : "#EAEAEA",
           borderRadius: "20px",
