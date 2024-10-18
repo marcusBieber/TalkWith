@@ -13,7 +13,7 @@ app.use(express.json());
 // Socket.io-Server
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -29,24 +29,6 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("receive_message", data);
   });
 });
-
-/* Dummy-Daten, die später durch die Datenbank ersetzt werden
-let chatMessage = [
-    { id: 2, user: "Marcus", message: "Hallo von Marcus!" },
-    { id: 3, user: "Kaho", message: "Hallo von Kaho!" },
-    { id: 4, user: "Ilona", message: "Hallo von Ilona!" }
-];
-
-app.get("/chat", (req, res) => {
-    res.json(chatMessage);
-});
-
-app.post("/chat", (req, res) => {
-    const newMessage = req.body;
-    chatMessage.push(newMessage);
-    res.status(201).json(newMessage);
-});
-*/
 
 server.listen(Port, () => {
   console.log(`Server läuft auf http://localhost:${Port}`);
