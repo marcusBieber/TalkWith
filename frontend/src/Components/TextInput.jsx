@@ -1,12 +1,13 @@
-import io from "socket.io-client";
 import { ColorContext } from "./ColorSwitcher";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useState, useContext } from "react";
+import { useSocket } from "./SocketProvider";
 
 function TextInput() {
   const [message, setMessage] = useState("");
-  const socketRef = useRef(null);
   const { darkMode } = useContext(ColorContext);
 
+  /*
+  //const socketRef = useRef(null);
   useEffect(() => {
     socketRef.current = io("http://localhost:3000");
 
@@ -18,15 +19,21 @@ function TextInput() {
       socketRef.current.disconnect();
     };
   }, []);
+  */
+  const socket = useSocket();
+
+  const test = () => {
+    console.log(socket);
+  };
 
   const sendMessage = () => {
-    if (socketRef.current) {
+    if (socket) {
       const messageData = {
         id: Date.now(),
         text: message,
         timestamp: new Date().toString().slice(0, 21),
       };
-      socketRef.current.emit("send_message", messageData);
+      socket.emit("send_message", messageData);
       setMessage("");
     }
   };
