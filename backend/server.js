@@ -2,17 +2,15 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import cors from "cors";
-import { addChatMessage, getChatMessages, addUser, getUserByName } from "./database.js";
 
 const app = express();
 const server = createServer(app);
-const port = 3000;
+const Port = 3000;
 
-//middleware
- app.use(cors());
- app.use(express.json());
+app.use(cors());
+app.use(express.json());
 
- // Socket.io-Server
+// Socket.io-Server
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -24,13 +22,11 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log(`User verbunden: ${socket.id}`);
 
-  // FIXME This is just a dummy user, we should get the username from the frontend
-  const dummyUserPassword = "password";
-  addUser(socket.id, dummyUserPassword);
-
   // Daten über das "send_message"-Event aus dem Frontend empfangen
-  socket.on("send_message", async (data) => {
+  socket.on("send_message", async(data) => {
     console.log("Nachricht erhalten:", data);
+    // Daten über das "receive_message"-Event ins Frontend senden
+    socket.broadcast.emit("receive_message", data);
 
     try {
       // Use async/await to fetch the user
@@ -56,10 +52,8 @@ io.on("connection", (socket) => {
     }
   });
 });
-
-
- // Get chat messages from the database
- app.get("/chat", async (req, res) => {
+// Get chat messages from the database
+app.get("/chat", async (req, res) => {
   try {
     const chatMessages = await getChatMessages();
     res.status(200).send(chatMessages);
@@ -80,7 +74,9 @@ app.post("/chat", async(req, res) => {
     res.status(500).send("Error adding message");
   }
 });
-server.listen(port, () => {
-  console.log(`Server läuft auf http://localhost:${port}`);
-});
 
+
+
+server.listen(Port, () => {
+  console.log(`Server läuft auf http://localhost:${Port}`);
+});
