@@ -48,8 +48,20 @@ function initializeDatabase() {
 
 const db = initializeDatabase();
 
+// FIXME Uses a dummy user until we have authentication
+const username = "dummyuser";
+const password = "dummypassword";
+
+try {
+    addUser(username, password);
+} catch (err) {
+    console.error("Error adding user:", err.message);
+}
+
+const user = getUserByName(username);
+
 // Add a new chat message
-export function addChatMessage(userid, text) {
+export function addChatMessage(text,id,timestamp,userid=user.id) {
     return new Promise((resolve, reject) => {
         if (!userid || !text) {
             return reject("User ID and text are required.");
