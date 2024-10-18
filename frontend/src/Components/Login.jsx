@@ -46,6 +46,7 @@ function Login() {
             className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
             style={{
               backgroundColor: darkMode ? "#555" : "#EAEAEA",
+              margin: "0px 0px 0px 70px",
               color: darkMode ? "#ffffff" : "#565353",
             }}
           >
