@@ -1,9 +1,11 @@
 import io from "socket.io-client";
-import { useEffect, useState, useRef } from "react";
+import { ColorContext } from "./ColorSwitcher";
+import { useEffect, useState, useRef, useContext } from "react";
 
 function TextInput() {
   const [message, setMessage] = useState("");
   const socketRef = useRef(null);
+  const { darkMode } = useContext(ColorContext);
 
   useEffect(() => {
     socketRef.current = io("http://localhost:3000");
@@ -33,28 +35,28 @@ function TextInput() {
         value={message}
         onChange={(event) => setMessage(event.target.value)}
         style={{
-          backgroundColor: '#EAEAEA',
-          borderRadius: '20px',
-          padding: '40px 50px 40px 20px',
-          border: 'none',
-          width: '100%', 
-        }} 
+          backgroundColor: darkMode ? "#565656" : "#EAEAEA",
+          borderRadius: "20px",
+          padding: "40px 50px 40px 20px",
+          border: "none",
+          width: "100%",
+          color: darkMode ? "#ffffff" : "#000000",
+          boxShadow: darkMode
+            ? "0px 4px 10px rgba(0, 0, 0, 0.5)"
+            : "0px 4px 10px rgba(0, 0, 0, 0.1)",
+        }}
       />
       <button
         onClick={sendMessage}
-        className="btn"
+        className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
         style={{
-          position: 'absolute', 
-          right: '10px', 
-          top: '50%',
-          transform: 'translateY(-50%)',
-          borderRadius: '20px',
-          backgroundColor: '#D9D9D9',
-          border: 'none', 
-          color: '#565353',
-          padding: '2px 20px',
-        }}>
-
+          position: "absolute",
+          right: "10px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          padding: "5px 20px",
+        }}
+      >
         Send
       </button>
     </div>

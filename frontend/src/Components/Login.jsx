@@ -1,4 +1,9 @@
+import React, { useContext } from "react";
+import { ColorContext } from "./ColorSwitcher";
+
 function Login() {
+  const { darkMode } = useContext(ColorContext);
+
   return (
     <div className="d-flex justify-content-center align-items-center vh-10">
       <form style={{ width: "300px" }}>
@@ -13,7 +18,9 @@ function Login() {
             style={{
               borderRadius: "10px",
               padding: "0px 0px 0px 8px",
-              border: "1px solid #ccc",
+              border: darkMode ? "1px solid #555" : "1px solid #ccc",
+              backgroundColor: darkMode ? "#565656" : "#fff",
+              color: darkMode ? "#ffffff" : "#",
             }}
           />
         </div>
@@ -27,22 +34,20 @@ function Login() {
             style={{
               borderRadius: "10px",
               padding: "0px 0px 0px 8px",
-              border: "1px solid #ccc",
+              border: darkMode ? "1px solid #555" : "1px solid #ccc",
+              backgroundColor: darkMode ? "#565656" : "#fff",
+              color: darkMode ? "#ffffff" : "#000000",
             }}
           />
         </div>
         <div>
           <button
             type="submit"
-            className="btn btn-light"
+            className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
             style={{
-              borderRadius: "20px",
-              backgroundColor: "#EAEAEA",
-              border: "none",
-              color: "#565353",
-              padding: "2px 20px",
-              marginLeft: "75px",
-              cursor: "pointer",
+              backgroundColor: darkMode ? "#555" : "#EAEAEA",
+              margin: "0px 0px 0px 70px",
+              color: darkMode ? "#ffffff" : "#565353",
             }}
           >
             Login
