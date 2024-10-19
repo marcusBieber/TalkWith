@@ -5,34 +5,18 @@ import { useSocket } from "./SocketProvider";
 function TextInput() {
   const [message, setMessage] = useState("");
   const { darkMode } = useContext(ColorContext);
+  const socket = useSocket(); // importieren der Socket-Verbindung
 
-  /*
-  //const socketRef = useRef(null);
-  useEffect(() => {
-    socketRef.current = io("http://localhost:3000");
-
-    socketRef.current.on("connection_error", (err) => {
-      console.error(`Verbindungsfehler: ${err.message}`);
-    });
-
-    return () => {
-      socketRef.current.disconnect();
-    };
-  }, []);
-  */
-  const socket = useSocket();
-
-  const test = () => {
-    console.log(socket);
-  };
-
+  // Nachrichten-Objekt konstruieren und ins Backend schicken
   const sendMessage = () => {
     if (socket) {
+      // konstruieren des Nachrichten-Objekts mit "id", "text" und "timestamp"
       const messageData = {
         id: Date.now(),
         text: message,
         timestamp: new Date().toString().slice(0, 21),
       };
+      // senden des Nachrichten-Objekts über das "send_message"-Event
       socket.emit("send_message", messageData);
       setMessage("");
     }

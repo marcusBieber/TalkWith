@@ -1,17 +1,30 @@
-import React, { useContext } from "react";
-import { ColorContext } from './ColorSwitcher';
+import React, { useContext, useEffect, useState } from "react";
+import { ColorContext } from "./ColorSwitcher";
+import { useSocket } from "./SocketProvider";
+
 
 function ChatHistory() {
-  {
-    /*Dummy Nachrichten*/
-  }
-  const messages = [
-    { id: 1, user: "Marcus", text: "Hallo!" },
-    { id: 2, user: "Kaho", text: "Heey!" },
-    { id: 3, user: "Ilona", text: "HuHuu!" },
-  ];
-
   const { darkMode } = useContext(ColorContext);
+  const [messages, setMessages] = useState([]);
+  const socket = useSocket(); // importieren der Socket-Verbindung
+
+  // Nachrichten-Objekt aus dem Backend empfangen,
+  // im State speichern und in der Komponente anzeigen
+  useEffect(() => {
+    if (socket) {
+      // Nachrichten-Objekt über das "receive_message"-Event aus dem Backend empfangen
+      socket.on("receive_message", (message) => {
+        // Nachrichten-Objekte speichern
+        setMessages((prevMessages) => [...prevMessages, message]);
+      });
+    }
+    return () => {
+      if (socket) {
+        // "receive_message"-Event beenden
+        socket.off("receive_message");
+      }
+    };
+  }, [socket]);
 
   return (
     <div
@@ -38,15 +51,22 @@ function ChatHistory() {
             className={`p-2 rounded w-100 shadow`}
             style={{
               backgroundColor: msg.isUser
-                ? (darkMode ? "#1e90ff" : "#00bfff")
-                : (darkMode ? "#444444" : "#EAEAEA"),
+                ? darkMode
+                  ? "#1e90ff"
+                  : "#00bfff"
+                : darkMode
+                ? "#444444"
+                : "#EAEAEA",
               color: darkMode ? "#ffffff" : "#000000",
               maxWidth: "100%",
               wordWrap: "break-word",
-              boxShadow: darkMode ? "0px 4px 10px rgba(0, 0, 0, 0.5)" : "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              boxShadow: darkMode
+                ? "0px 4px 10px rgba(0, 0, 0, 0.5)"
+                : "0px 4px 10px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <strong>{msg.user}:</strong> {msg.text}
+            <p style={{ fontSize: "24px" }}>{msg.text}</p>
+            <span style={{ fontSize: "12px" }}>{msg.timestamp}</span>
           </div>
         </div>
       ))}
