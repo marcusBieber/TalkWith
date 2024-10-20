@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { ColorContext } from "./ColorSwitcher";
 import { useSocket } from "./SocketProvider";
 
-
 function ChatHistory() {
   const { darkMode } = useContext(ColorContext);
   const [messages, setMessages] = useState([]);
@@ -66,7 +65,10 @@ function ChatHistory() {
             }}
           >
             <p style={{ fontSize: "24px" }}>{msg.text}</p>
-            <span style={{ fontSize: "12px" }}>{msg.timestamp}</span>
+            <p style={{ fontSize: "16px" }}>
+              {msg.user}
+              <span style={{ fontSize: "8px" }}> {msg.timestamp}</span>
+            </p>
           </div>
         </div>
       ))}

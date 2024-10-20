@@ -2,7 +2,7 @@ import { ColorContext } from "./ColorSwitcher";
 import { useState, useContext } from "react";
 import { useSocket } from "./SocketProvider";
 
-function TextInput() {
+function TextInput({ username }) {
   const [message, setMessage] = useState("");
   const { darkMode } = useContext(ColorContext);
   const socket = useSocket(); // importieren der Socket-Verbindung
@@ -13,6 +13,7 @@ function TextInput() {
       // konstruieren des Nachrichten-Objekts mit "id", "text" und "timestamp"
       const messageData = {
         id: Date.now(),
+        user: username,
         text: message,
         timestamp: new Date().toString().slice(0, 21),
       };
@@ -53,7 +54,7 @@ function TextInput() {
           padding: "5px 20px",
         }}
       >
-        Send
+        Senden
       </button>
     </div>
   );
