@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
   socket.on("send_message", (data) => {
     console.log("Nachricht erhalten:", data);
     // Daten über das "receive_message"-Event ins Frontend senden
-    socket.broadcast.emit("receive_message", data);
+    io.emit("receive_message", data);
   });
 });
 
