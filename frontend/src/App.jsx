@@ -10,11 +10,14 @@ import {
 } from "./Components/ColorSwitcher";
 import "./App.css";
 import { useContext } from "react";
+import { SocketProvider } from "./Components/SocketProvider";
 
 function App() {
   return (
     <ColorProvider>
-      <MainComponent />
+      <SocketProvider>
+        <MainComponent />
+      </SocketProvider>
     </ColorProvider>
   );
 }
