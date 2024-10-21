@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AnimatedHeader from "./AnimatedHeader";
-import CustomButton from "./CostomButton";
+import CustomButton from "./CustomButton";
 
 // Benutzernamen abfragen und im State speichern,
 // State wird über onLogin() an den SocketProvider weitergegeben,

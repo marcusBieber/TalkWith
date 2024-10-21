@@ -18,15 +18,37 @@ const io = new Server(server, {
   },
 });
 
-// auf "connection-Event" in Socket warten
+// Liste der angemeldeten Benutzer
+let users = [];
+
+// auf "connection"-Event in Socket warten
 io.on("connection", (socket) => {
   console.log(`User verbunden: ${socket.id}`);
 
+  // Benutzernamen über das "set_username"-Event aus dem Frontend empfangen
+  socket.on("set_username", (username) => {
+    socket.username = username;
+    // username zur Benutzerliste hinzufügen
+    users.push(username);
+    console.log(`${username} hat sich angemeldet!`);
+    // Benutzerliste über das "update_user"-Event ins Frontend senden
+    io.emit("update_user", users);
+  });
+
   // Daten über das "send_message"-Event aus dem Frontend empfangen
   socket.on("send_message", (data) => {
-    console.log("Nachricht erhalten:", data);
+    console.log(`Nachricht von ${socket.username}:`, data);
     // Daten über das "receive_message"-Event ins Frontend senden
     io.emit("receive_message", data);
+  });
+
+  // Benutzerliste altualisieren wenn ein Benutzer die Verbindung trennt
+  socket.on("disconnect", () => {
+    if (socket.username) {
+      console.log(`${socket.username} hat sich abgemeldet!`);
+      users = users.filter((user) => user !== socket.username);
+      io.emit("update_user", users);
+    }
   });
 });
 
