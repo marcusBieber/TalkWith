@@ -17,7 +17,7 @@ test('addChatMessage', async () => {
     
     const text = "test message";
     
-    await addChatMessage(userid, text); // Wait for the chat message to be added
+    await addChatMessage(text, userid); // Wait for the chat message to be added
     const chatMessages = await getChatMessages(); // Wait for chat messages to be fetched
     
     expect(chatMessages.length).toBe(1);
@@ -78,7 +78,7 @@ test('deleteChatMessage', async () => {
     const userid = users[0].id;
     
     const text = "test message";
-    await database.addChatMessage(userid, text); // Wait for the chat message to be added
+    await database.addChatMessage(text, userid); // Wait for the chat message to be added
     
     let chatMessages = await database.getChatMessages(); // Wait for chat messages to be fetched
     const chatmessageid = chatMessages[0].id;
