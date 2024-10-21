@@ -49,3 +49,18 @@ body {
   transform: translateY(0);
   box-shadow: none;
 }
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%); /* von oben */
+    opacity: 0; /* unsichtbar */
+  }
+  to {
+    transform: translateY(0); /* in die Endposition */
+    opacity: 1; /* sichtbar */
+  }
+}
+
+.slide-in {
+  display: block; /* Jedes Wort wird in einer neuen Zeile angezeigt */
+  animation: slideIn 2s ease forwards; /* Dauer der Animation */
+}
