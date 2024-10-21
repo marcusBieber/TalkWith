@@ -1,32 +1,24 @@
-import io from "socket.io-client";
 import { ColorContext } from "./ColorSwitcher";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useState, useContext } from "react";
+import { useSocket } from "./SocketProvider";
 
-function TextInput() {
+function TextInput({ username }) {
   const [message, setMessage] = useState("");
-  const socketRef = useRef(null);
   const { darkMode } = useContext(ColorContext);
+  const socket = useSocket(); // importieren der Socket-Verbindung
 
-  useEffect(() => {
-    socketRef.current = io("http://localhost:3000");
-
-    socketRef.current.on("connection_error", (err) => {
-      console.error(`Verbindungsfehler: ${err.message}`);
-    });
-
-    return () => {
-      socketRef.current.disconnect();
-    };
-  }, []);
-
+  // Nachrichten-Objekt konstruieren und ins Backend schicken
   const sendMessage = () => {
-    if (socketRef.current) {
+    if (socket) {
+      // konstruieren des Nachrichten-Objekts mit "id", "text" und "timestamp"
       const messageData = {
         id: Date.now(),
+        user: username,
         text: message,
         timestamp: new Date().toString().slice(0, 21), 
       };
-      socketRef.current.emit("send_message", messageData);
+      // senden des Nachrichten-Objekts über das "send_message"-Event
+      socket.emit("send_message", messageData);
       setMessage("");
     }
   };
@@ -62,7 +54,7 @@ function TextInput() {
           padding: "5px 20px",
         }}
       >
-        Send
+        Senden
       </button>
     </div>
   );
