@@ -1,11 +1,27 @@
-html,
-body {
+html, body {
+  height: 100%; /* Setzt die Höhe von HTML und Body auf 100% */
   margin: 0;
   padding: 0;
+  overflow: auto; /* Deaktiviert das Scrollen */
+  max-height: 100vh;
 }
 
 .container-fluid {
+  height: 100%;
+  display: flex; /* Flexbox für besseres Layout */
+  flex-direction: row; /* Horizontale Anordnung */
   transition: background-color 0.3s ease;
+}
+
+.sidebar {
+  flex: 0 0 250px; /* Sidebar hat eine feste Breite */
+  height: auto; /* Höhe anpassen */
+  overflow-y: auto; /* Ermöglicht Scrollen, wenn der Inhalt zu groß ist */
+}
+
+.chat-history {
+  flex: 1; /* Chat-Historie nimmt den verbleibenden Platz ein */
+  overflow: auto; /* Ermöglicht das Scrollen, wenn der Inhalt zu groß ist */
 }
 
 /* Dunkles Design */
@@ -24,13 +40,13 @@ body {
 .btn-custom {
   border-radius: 20px;
   border: none;
-  padding: 5px 20px;
+  padding: 5px 15px; /* Weniger Padding für mobile Geräte */
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .btn-custom-dark {
-  background-color: #555;
+  background-color: #565656;
   color: #ffffff;
 }
 
@@ -49,6 +65,7 @@ body {
   transform: translateY(0);
   box-shadow: none;
 }
+
 @keyframes slideIn {
   from {
     transform: translateY(-100%); /* von oben */
@@ -61,6 +78,63 @@ body {
 }
 
 .slide-in {
-  display: block; /* Jedes Wort wird in einer neuen Zeile angezeigt */
-  animation: slideIn 2s ease forwards; /* Dauer der Animation */
+  display: block; 
+  animation: slideIn 2s ease forwards; 
+}
+
+/* Eingabefeld-Stil */
+.input-field {
+  background-color: #eaeaea;
+  border-radius: 20px;
+  padding: 10px; 
+  height: 50px; /* Höhe des Eingabefelds */
+  border: none;
+  width: 100%; /* Volle Breite für Eingabefeld */
+  color: #151515; 
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* Dunkles Eingabefeld */
+.input-field.dark {
+  background-color: #565656; 
+  color: #ffffff; 
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Media Queries für verschiedene Bildschirmgrößen */
+@media (max-width: 768px) {
+  .container-fluid {
+    flex-direction: column; /* Vertikale Anordnung auf kleinen Bildschirmen */
+  }
+
+  .sidebar {
+    width: 100%; /* Sidebar passt sich an */
+  }
+
+  .chat-history {
+    margin-top: 10px; /* Abstand zur Sidebar */
+    height: 100%; /* Nimmt den verbleibenden Platz ein */
+  }
+
+  .input-field {
+    height: 40px; /* Höhe des Eingabefelds auf kleinen Bildschirmen */
+  }
+
+  h3 {
+    font-size: 1.5em; /* Schriftgröße anpassen für kleinere Bildschirme */
+  }
+}
+
+.list-group {
+  width: 100%; /* Volle Breite für die Liste */
+  max-width: none; /* Maximalbreite aufheben */
+}
+
+.list-group-item {
+  transition: background-color 0.3s; /* Sanfter Übergang für den Hintergrund */
+}
+
+.list-group-item:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Hover-Effekt für bessere Benutzererfahrung */
 }
