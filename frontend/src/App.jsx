@@ -9,19 +9,27 @@ import {
   ColorContext,
 } from "./Components/ColorSwitcher";
 import "./App.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SocketProvider } from "./Components/SocketProvider";
+import Login1 from "./Components/Login1";
 
 function App() {
+  const [username, setUsername] = useState("");
+
   return (
     <ColorProvider>
-      <SocketProvider>
-        <MainComponent />
-      </SocketProvider>
+      {!username ? (
+        <Login1 onLogin={setUsername} />
+      ) : (
+        <SocketProvider>
+          <MainComponent username={username} />
+        </SocketProvider>
+      )}
+      ;
     </ColorProvider>
   );
 }
-const MainComponent = () => {
+const MainComponent = ({ username }) => {
   const { darkMode } = useContext(ColorContext);
 
   return (
@@ -54,9 +62,9 @@ const MainComponent = () => {
             className="text-center mb-0 flex-grow-1"
             style={{ fontFamily: "Inter, sans-serif", fontWeight: 100 }}
           >
-            Talk With
+            TalkWith
           </h1>
-
+          <p>Hallo {username}!</p>
           <ColorSwitcher />
         </div>
       </div>
@@ -111,7 +119,7 @@ const MainComponent = () => {
               padding: "10px",
             }}
           >
-            <TextInput />
+            <TextInput username={username} />
           </div>
         </div>
       </div>

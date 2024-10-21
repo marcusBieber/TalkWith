@@ -24,7 +24,7 @@ const ColorSwitcher = () => {
       className={`btn btn-custom ${darkMode ? "btn-light" : "btn-dark"}`}
       onClick={toggleColorScheme}
     >
-      {darkMode ? "Helles Design" : "Dunkles Design"}Farbwechsel
+      {darkMode ? "Light Mode" : "Dark Mode"}
     </button>
   );
 };
