@@ -2,10 +2,11 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import cors from "cors";
+import { addChatMessage, getChatMessages, } from "./database/database.js";
 
 const app = express();
 const server = createServer(app);
-const Port = 3000;
+const port = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -23,35 +24,21 @@ io.on("connection", (socket) => {
   console.log(`User verbunden: ${socket.id}`);
 
   // Daten über das "send_message"-Event aus dem Frontend empfangen
-  socket.on("send_message", async(data) => {
-    console.log("Nachricht erhalten:", data);
-    // Daten über das "receive_message"-Event ins Frontend senden
-    socket.broadcast.emit("receive_message", data);
-
+  socket.on("send_message", async(messageData) => {
+    console.log("Nachricht erhalten:", messageData);
+   
     try {
-      // Use async/await to fetch the user
-      const users = await getUserByName(socket.id);
-
-      // Check if the user exists before accessing the id
-      if (users.length === 0) {
-        console.error("User not found:", socket.id);
-        return; // Exit early if user is not found
-      }
-
-      const userid = users[0].id;
-      const text = data.message;
-
       // Add the chat message to the database
-      await addChatMessage(userid, text);
-      console.log("message added to database");
-
+      await addChatMessage(messageData.text, messageData.userid, messageData.timestamp);
+      console.log("Message added to database");
       // Broadcast the message to other clients
-      socket.broadcast.emit("receive_message", data);
+      socket.broadcast.emit("receive_message", messageData);
     } catch (error) {
       console.error("Error processing message:", error);
     }
   });
 });
+    
 // Get chat messages from the database
 app.get("/chat", async (req, res) => {
   try {
@@ -77,6 +64,6 @@ app.post("/chat", async(req, res) => {
 
 
 
-server.listen(Port, () => {
-  console.log(`Server läuft auf http://localhost:${Port}`);
+server.listen(port, () => {
+  console.log(`Server läuft auf http://localhost:${port}`);
 });
