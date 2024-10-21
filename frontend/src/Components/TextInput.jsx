@@ -24,7 +24,7 @@ function TextInput() {
       const messageData = {
         id: Date.now(),
         text: message,
-        timestamp: new Date().toString().slice(0, 21),
+        timestamp: new Date().toString().slice(0, 21), 
       };
       socketRef.current.emit("send_message", messageData);
       setMessage("");

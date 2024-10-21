@@ -52,22 +52,23 @@ const db = initializeDatabase();
 const username = "dummyuser";
 const password = "dummypassword";
 
-try {
-    addUser(username, password);
-} catch (err) {
+// Might throw a promise rejection if user already exists
+addUser(username, password).catch((err) => {
     console.error("Error adding user:", err.message);
-}
+});
 
-const user = getUserByName(username);
+// Retrieve user by username
+let user = await getUserByName(username);
+user = user[0];
 
 // Add a new chat message
-export function addChatMessage(text,id,timestamp,userid=user.id) {
+export function addChatMessage(text,id,timestamp, userid=user.id) {
     return new Promise((resolve, reject) => {
         if (!userid || !text) {
             return reject("User ID and text are required.");
         }
-        db.run(`INSERT INTO chatmessages (userid, text, date) VALUES (?, ?, ?)`, 
-               [userid, text, new Date().toISOString()], (err) => {
+        db.run(`INSERT INTO chatmessages (id, userid, text, date) VALUES (?, ?, ?, ?)`, 
+               [id, userid, text, timestamp], (err) => {
             if (err) {
                 return reject(`Error inserting data: ${err.message}`);
             }
