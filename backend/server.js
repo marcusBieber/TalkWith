@@ -15,7 +15,6 @@ app.use(express.json());
 const io = new Server(server, {
   cors: {
     origin: "*",
-    origin: "*",
     methods: ["GET", "POST"],
   },
 });
@@ -30,7 +29,7 @@ io.on("connection", (socket) => {
    
     try {
       // Add the chat message to the database
-      await addChatMessage(messageData.text, messageData.userid, messageData.timestamp);
+      await addChatMessage(messageData.user, messageData.text, messageData.id, messageData.timestamp);
       console.log("Message added to database");
       // Broadcast the message to other clients
       socket.broadcast.emit("receive_message", messageData);
