@@ -19,24 +19,45 @@ const io = new Server(server, {
   },
 });
 
-// auf "connection-Event" in Socket warten
+// Liste der angemeldeten Benutzer
+let users = [];
+
+// auf "connection"-Event in Socket warten
 io.on("connection", (socket) => {
   console.log(`User verbunden: ${socket.id}`);
 
+  // Benutzernamen über das "set_username"-Event aus dem Frontend empfangen
+  socket.on("set_username", (username) => {
+    socket.username = username;
+    // username zur Benutzerliste hinzufügen
+    users.push(username);
+    console.log(`${username} hat sich angemeldet!`);
+    // Benutzerliste über das "update_user"-Event ins Frontend senden
+    io.emit("update_user", users);
+  });
+
   // Daten über das "send_message"-Event aus dem Frontend empfangen
   socket.on("send_message", async(messageData) => {
-    console.log("Nachricht erhalten:", messageData);
-   
+    console.log(`Nachricht von ${socket.username}:`, messageData);
     try {
       // Add the chat message to the database
       await addChatMessage(messageData.user, messageData.text, messageData.id, messageData.timestamp);
       console.log("Message added to database");
       // Broadcast the message to other clients
-      socket.broadcast.emit("receive_message", messageData);
     } catch (error) {
       console.error("Error processing message:", error);
     }
+    // Daten über das "receive_message"-Event ins Frontend senden
+    io.emit("receive_message", messageData);
   });
+
+  // Benutzerliste altualisieren wenn ein Benutzer die Verbindung trennt
+  socket.on("disconnect", () => {
+    if (socket.username) {
+      console.log(`${socket.username} hat sich abgemeldet!`);
+      users = users.filter((user) => user !== socket.username);
+      io.emit("update_user", users);
+    }
 });
     
 // Get chat messages from the database

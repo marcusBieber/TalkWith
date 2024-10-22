@@ -1,12 +1,12 @@
 import { useState } from "react";
 import AnimatedHeader from "./AnimatedHeader";
-import CustomButton from "./CostomButton";
+import CustomButton from "./CustomButton";
 
 // Benutzernamen abfragen und im State speichern,
 // State wird über onLogin() an den SocketProvider weitergegeben,
 // SocketProvider und MainComponent werden erst geladen,
 // wenn sich der Nutzer mit einem Benutzernamen angemeldet hat
-function Login1({ onLogin }) {
+function Login({ onLogin }) {
   const [username, setUsername] = useState("");
 
   const handleLogin = () => {
@@ -59,4 +59,4 @@ function Login1({ onLogin }) {
   );
 }
 
-export default Login1;
+export default Login;

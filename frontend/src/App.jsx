@@ -10,7 +10,8 @@ import {
 import "./App.css";
 import { useContext, useState } from "react";
 import { SocketProvider } from "./Components/SocketProvider";
-import Login1 from "./Components/Login1";
+import Login from "./Components/Login";
+import LogOff from "./Components/LogOff";
 
 function App() {
   const [username, setUsername] = useState("");
@@ -18,17 +19,17 @@ function App() {
   return (
     <ColorProvider>
       {!username ? (
-        <Login1 onLogin={setUsername} />
+        <Login onLogin={setUsername} />
       ) : (
-        <SocketProvider>
-          <MainComponent username={username} />
+        <SocketProvider username={username}>
+          <MainComponent username={username} setUsername={setUsername} />
         </SocketProvider>
       )}
       ;
     </ColorProvider>
   );
 }
-const MainComponent = ({ username }) => {
+const MainComponent = ({ username, setUsername }) => {
   const { darkMode } = useContext(ColorContext);
 
   return (
@@ -62,6 +63,7 @@ const MainComponent = ({ username }) => {
             ChatWith
           </h1>
           <ColorSwitcher />
+          <LogOff setUsername={setUsername}/>
         </div>
       </div>
 

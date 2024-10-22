@@ -15,7 +15,7 @@ export const useSocket = () => useContext(SocketContext);
 
 // initialisieren einer einzelnen beständigen Verbindung
 // und speichern im SocketContext
-export const SocketProvider = ({ children }) => {
+export const SocketProvider = ({ children, username }) => {
   const [socket, setSocket] = useState(null);
   const socketRef = useRef(null);
 
@@ -26,6 +26,8 @@ export const SocketProvider = ({ children }) => {
     socketRef.current.on("connect", () => {
       console.log("Verbindung hergestellt!");
       setSocket(socketRef.current);
+      // Benutzernamen an den Server senden
+      socketRef.current.emit("set_username", username);
     });
     // Fehlerbehandlung
     socketRef.current.on("conection_error", (err) => {
