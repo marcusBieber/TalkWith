@@ -27,11 +27,8 @@ io.on("connection", (socket) => {
   console.log(`User verbunden: ${socket.id}`);
 
   // Benutzernamen über das "set_username"-Event aus dem Frontend empfangen
-  socket.on("set_username", async(username) => {
+  socket.on("set_username", (username) => {
     socket.username = username;
-    //add username to the database
-    await addUser(username, socket.id);
-    console.log(`Username added to database: ${username}`);
     // username zur Benutzerliste hinzufügen
     users.push(username);
     console.log(`${username} hat sich angemeldet!`);
@@ -74,20 +71,6 @@ app.get("/chat", async (req, res) => {
     res.status(500).send("Error fetching chat messages");
   }
 });
-
-  // Post a new chat message
-app.post("/chat", async(req, res) => {
-   const { userid, text } = req.body;
-   try {
-    await addChatMessage(userid, text);
-    res.send({ message: "Message added successfully" });
-  } catch (error) {
-    console.error("Error adding message:", error);
-    res.status(500).send("Error adding message");
-  }
-});
-
-
 
 server.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
