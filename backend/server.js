@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
       users = users.filter((user) => user !== socket.username);
       io.emit("update_user", users);
     }
-});
+  });
     
 // Get chat messages from the database
 app.get("/chat", async (req, res) => {
