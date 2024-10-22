@@ -24,39 +24,6 @@ function TextInput({ username }) {
     }
   };
 
-  // States für Hover- und Active-Zustände
-  const [isHovered, setIsHovered] = useState(false);
-
-  const buttonStyle = {
-    borderRadius: '20px',
-    transform: `translateY(${isHovered ? '-2px' : '0'})`,
-    padding: "5px 20px",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    boxShadow: isHovered ? "0px 4px 15px rgba(0, 0, 0, 0.2)" : "none",
-  };
-
-  const maxLineLength = 45
-
-  const handleChange = (event) => {
-    const inputValue = event.target.value;
-
-    // Teile den Text in Zeilen auf
-    const lines = inputValue.split("\n").map(line => {
-      // Bei jeder Zeile: Wenn die Länge die maximale Länge überschreitet, teile sie in neue Zeilen
-      if (line.length > maxLineLength) {
-        const newLines = [];
-        for (let i = 0; i < line.length; i += maxLineLength) {
-          newLines.push(line.slice(i, i + maxLineLength));
-        }
-        return newLines.join("\n"); // Füge die neuen Zeilen wieder zusammen
-      }
-      return line; // Gebe die Zeile unverändert zurück, wenn sie die maximale Länge nicht überschreitet
-    });
-
-    // Verbinde alle Zeilen mit einem Zeilenumbruch
-    setMessage(lines.join("\n"));
-  };
-
   return (
     <div className="d-flex flex-column align-items-center w-100">
       <input
@@ -73,7 +40,6 @@ function TextInput({ username }) {
           }
         }}
       />
-
        <button
         onClick={sendMessage}
         className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
