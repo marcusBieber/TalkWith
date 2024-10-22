@@ -20,17 +20,20 @@ function UserDisplay() {
 
   return (
     <div className="d-flex flex-column align-items-center">
-      <h2
+      <h3
         style={{
+          margin: "20px",
           fontFamily: "Inter, sans-serif",
+          fontWeight: 600,
           backgroundcolor: darkMode ? "#ffffff" : "#000000",
           color: darkMode ? "#ffffff" : "#000000",
 
         }}
       >
-        Benutzer
-      </h2>
-      <div className="list-group">
+        User
+      </h3>
+      <div className="list-group" style={{fontFamily: "Inter, sans-serif",
+          fontWeight: 600,}}>
         {users.map((user) => (
           <div
             key={user.id}
