@@ -22,6 +22,8 @@ const ColorSwitcher = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   const buttonStyle = {
+    fontFamily: "Inter, sans-serif",
+    fontWeight: 600,
     borderRadius: '20px',
     border: 'none',
     padding: '5px 20px',

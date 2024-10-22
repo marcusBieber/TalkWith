@@ -26,6 +26,7 @@ function Login({ onLogin }) {
         <form style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}>
           <div className="mb-2 d-flex align-items-center">
             <input
+              className="shadow"
               type="text"
               placeholder="Benutzername..."
               value={username}

@@ -105,7 +105,8 @@ html, body {
 /* Media Queries für verschiedene Bildschirmgrößen */
 @media (max-width: 768px) {
   .container-fluid {
-    flex-direction: column; /* Vertikale Anordnung auf kleinen Bildschirmen */
+    flex-direction: column; 
+    /* Vertikale Anordnung auf kleinen Bildschirmen */
   }
 
   .sidebar {

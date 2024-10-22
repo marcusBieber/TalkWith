@@ -7,6 +7,8 @@ const CustomButton = ({ onClick, children, type = "button" }) => {
   const [isHovered, setIsHovered] = useState(false); // Zustand für Hover
 
   const buttonStyle = {
+    fontFamily: "Inter, sans-serif",
+    fontWeight: 600,
     borderRadius: '20px',
     border: 'none',
     padding: '5px 20px',

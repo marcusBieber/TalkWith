@@ -36,6 +36,9 @@ function ChatHistory() {
         border: darkMode ? "1px solid #555" : "1px solid #ccc",
         scrollbarWidth: "thin",
         scrollbarColor: darkMode ? "#888 #242424" : "#888 #EAEAEA",
+        boxShadow: darkMode
+          ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
+          : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus
       }}
       className="scrollbar"
     >
@@ -45,6 +48,11 @@ function ChatHistory() {
           className={`d-flex mb-2 ${
             msg.isUser ? "justify-content-end" : "justify-content-start"
           }`}
+          style={{
+            boxShadow: darkMode
+              ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
+              : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus
+          }}
         >
           <div
             className={`p-2 rounded w-100 shadow`}
@@ -59,13 +67,11 @@ function ChatHistory() {
               color: darkMode ? "#ffffff" : "#000000",
               maxWidth: "100%",
               wordWrap: "break-word",
-              boxShadow: darkMode
-                ? "0px 4px 10px rgba(0, 0, 0, 0.5)"
-                : "0px 4px 10px rgba(0, 0, 0, 0.1)",
             }}
           >
             <p style={{ fontSize: "24px" }}>{msg.text}</p>
-            <p style={{ fontSize: "16px" }}>
+            <p style={{fontFamily: "Inter, sans-serif",
+                fontWeight: 600, fontSize: "16px" }}>
               {msg.user}
               <span style={{ fontSize: "8px" }}> {msg.timestamp}</span>
             </p>
