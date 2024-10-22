@@ -108,7 +108,7 @@ const MainComponent = ({ username, setUsername }) => {
             margin: "3px"
           }}
         >
-          <ChatHistory darkMode={darkMode} />
+          <ChatHistory username={username} darkMode={darkMode} />
           {/* Texteingabe */}
           <div className="mt-3">
             <TextInput username={username} />
