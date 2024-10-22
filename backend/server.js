@@ -36,10 +36,10 @@ io.on("connection", (socket) => {
   });
 
   // Daten über das "send_message"-Event aus dem Frontend empfangen
-  socket.on("send_message", (data) => {
-    console.log(`Nachricht von ${socket.username}:`, data);
+  socket.on("send_message", (messageData) => {
+    console.log(`Nachricht von ${socket.username}:`, messageData);
     // Daten über das "receive_message"-Event ins Frontend senden
-    io.emit("receive_message", data);
+    io.emit("receive_message", messageData);
   });
 
   // Benutzerliste altualisieren wenn ein Benutzer die Verbindung trennt
