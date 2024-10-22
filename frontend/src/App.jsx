@@ -10,7 +10,7 @@ import {
 import "./App.css";
 import { useContext, useState } from "react";
 import { SocketProvider } from "./Components/SocketProvider";
-import Login1 from "./Components/Login1";
+import Login from "./Components/Login";
 import LogOff from "./Components/LogOff";
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   return (
     <ColorProvider>
       {!username ? (
-        <Login1 onLogin={setUsername} />
+        <Login onLogin={setUsername} />
       ) : (
         <SocketProvider username={username}>
           <MainComponent username={username} setUsername={setUsername} />
