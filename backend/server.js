@@ -27,8 +27,11 @@ io.on("connection", (socket) => {
   console.log(`User verbunden: ${socket.id}`);
 
   // Benutzernamen über das "set_username"-Event aus dem Frontend empfangen
-  socket.on("set_username", (username) => {
+  socket.on("set_username", async(username) => {
     socket.username = username;
+    //add username to the database
+    await addUser(username, socket.id);
+    console.log(`Username added to database: ${username}`);
     // username zur Benutzerliste hinzufügen
     users.push(username);
     console.log(`${username} hat sich angemeldet!`);
