@@ -7,78 +7,21 @@ beforeEach(async () => {
 });
 
 // Test if we can add a chat message
-test('addChatMessage', async () => {
-    // Create a new user
-    const username = "testuser";
-    const password = "password";
-    await database.addUser(username, password); // Wait for the user to be added
-    const users = await database.getUserByName(username); // Wait for users to be fetched
-    const userid = users[0].id;
-    
+test('addChatMessage', async () => {    
     const text = "test message";
     
-    await addChatMessage(text, userid); // Wait for the chat message to be added
+    await addChatMessage("testuser", text, Date.now(), new Date().toISOString()); // Wait for the chat message to be added
     const chatMessages = await getChatMessages(); // Wait for chat messages to be fetched
     
     expect(chatMessages.length).toBe(1);
-    expect(chatMessages[0].userid).toBe(userid);
+    expect(chatMessages[0].username).toBe("testuser");
     expect(chatMessages[0].text).toBe(text);
 });
 
-// Test if we can add a new user
-test('addUser', async () => {
-    const username = "testuser";
-    const password = "password";
-    
-    await database.addUser(username, password); // Wait for the user to be added
-    const users = await database.getUserByName(username); // Wait for users to be fetched
-    
-    expect(users.length).toBe(1);
-    expect(users[0].username).toBe(username);
-});
-
-// Test if we can delete a user
-test('deleteUser', async () => {
-    const username = "testuser";
-    const password = "password";
-    await database.addUser(username, password); // Wait for the user to be added
-    
-    let users = await database.getUserByName(username); // Wait for users to be fetched
-    const userid = users[0].id;
-    
-    await database.deleteUser(userid); // Wait for the user to be deleted
-    users = await database.getUserByName(userid); // Wait for users to be fetched
-    
-    expect(users.length).toBe(0);
-})
-
-// Test if we can rename a user
-test('renameUser', async () => {
-    const username = "testuser";
-    const password = "password";
-    await database.addUser(username, password); // Wait for the user to be added
-    
-    let users = await database.getUserByName(username); // Wait for users to be fetched
-    const userid = users[0].id;
-    
-    await database.renameUser(userid, "newusername"); // Wait for the user to be renamed
-    users = await database.getUserByName("newusername"); // Wait for users to be fetched
-    
-    expect(users.length).toBe(1);
-    expect(users[0].username).toBe("newusername");
-})
-
 // Test if we can delete a single chat message
 test('deleteChatMessage', async () => {
-    // Create a new user
-    const username = "testuser";
-    const password = "password";
-    await database.addUser(username, password); // Wait for the user to be added
-    const users = await database.getUserByName(username); // Wait for users to be fetched
-    const userid = users[0].id;
-    
     const text = "test message";
-    await database.addChatMessage(text, userid); // Wait for the chat message to be added
+    await database.addChatMessage("testuser", text, Date.now(), new Date().toISOString()); // Wait for the chat message to be added
     
     let chatMessages = await database.getChatMessages(); // Wait for chat messages to be fetched
     const chatmessageid = chatMessages[0].id;
