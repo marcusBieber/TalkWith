@@ -59,6 +59,7 @@ io.on("connection", (socket) => {
       io.emit("update_user", users);
     }
   });
+});
     
 // Get chat messages from the database
 app.get("/chat", async (req, res) => {
