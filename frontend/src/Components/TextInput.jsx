@@ -11,7 +11,8 @@ function TextInput({ username }) {
   // Nachrichten-Objekt konstruieren und ins Backend schicken
   const sendMessage = () => {
     if (socket) {
-      // konstruieren des Nachrichten-Objekts mit "id", "text" und "timestamp"
+      // konstruieren eines Nachrichten-Objekts 
+      // mit "id", "user", "text" und "timestamp"
       const messageData = {
         id: Date.now(),
         user: username,
@@ -36,7 +37,7 @@ function TextInput({ username }) {
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault(); // Verhindert den Umbruch bei "Enter" ohne Shift
-            sendMessage(); // Sende die Nachricht
+            sendMessage(); // Sendet die Nachricht
           }
         }}
       />
