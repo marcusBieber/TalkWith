@@ -1,5 +1,4 @@
 import ChatHistory from "./Components/ChatHistory";
-import Login from "./Components/Login";
 import TextInput from "./Components/TextInput";
 import UserDisplay from "./Components/UserDisplay";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -41,40 +40,37 @@ const MainComponent = ({ username, setUsername }) => {
       style={{
         backgroundColor: darkMode ? "#151515" : "#ffffff",
         color: darkMode ? "#ffffff" : "#151515",
+        padding: "15px",
       }}
     >
       {/* Überschrift/Login Bereich */}
       <div
-        className={`header-bar w-100 mb-3 ${darkMode ? "shadow" : "shadow-sm"}`}
+        className={`header-bar mb-3  ${darkMode ? "shadow" : "shadow-sm"}`}
         style={{
           borderRadius: "5px",
           backgroundColor: darkMode ? "#242424" : "#D9D9D9",
           color: darkMode ? "#ffffff" : "#000000",
-          padding: "15px",
+          padding: "10px",
+          margin: "3px", // Vereinheitlichung der Margen
+          width:  "calc(100% - 6px)",
         }}
       >
         <div className="d-flex align-items-center justify-content-between">
-          <Login style={{ marginRight: "10px", flexShrink: 0 }} />
-          <i
-            className="bi bi-chat-left-text"
-            style={{ fontSize: "24px", marginRight: "10px" }}
-          ></i>
           <h1
             className="text-center mb-0 flex-grow-1"
             style={{ fontFamily: "Inter, sans-serif", fontWeight: 100 }}
           >
-            TalkWith
+            ChatWith
           </h1>
-          <p>Hallo {username}!</p>
           <ColorSwitcher />
           <LogOff setUsername={setUsername}/>
         </div>
       </div>
 
-      <div className="d-flex flex-grow-1">
+      <div className="d-flex flex-grow-1" style={{ gap: "10px"}}>
         {/* Sidebar für die Benutzerliste */}
         <div
-          className={`sidebar d-flex flex-column align-items-center justify-content-start ${
+          className={`sidebar d-flex flex-column align-items-center ${
             darkMode ? "shadow" : "shadow-sm"
           }`}
           style={{
@@ -83,10 +79,12 @@ const MainComponent = ({ username, setUsername }) => {
             borderRadius: "5px",
             color: "#565353",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
-            padding: "15px",
-            marginRight: "15px",
+            margin: "3px"
           }}
         >
+          <h3 style={{
+            fontFamily: "Inter, sans-serif",
+            fontWeight: 600}}>Hallo {username}!</h3>
           <div className="d-flex align-items-start justify-content-start">
             <UserDisplay />
           </div>
@@ -99,28 +97,20 @@ const MainComponent = ({ username, setUsername }) => {
           }`}
           style={{
             border: "none",
+            width: "30px",
+            height: "820px",
             borderRadius: "5px",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
-            padding: "10px",
+            padding: "15px",
             boxShadow: darkMode
               ? "0px 4px 10px rgba(0, 0, 0, 0.5)"
               : "0px 4px 10px rgba(0, 0, 0, 0.1)",
+            margin: "3px"
           }}
         >
           <ChatHistory darkMode={darkMode} />
           {/* Texteingabe */}
-
-          <div
-            className={`flex-grow-1 d-flex flex-column ${
-              darkMode ? "shadow" : "shadow-sm"
-            }`}
-            style={{
-              border: "none",
-              borderRadius: "5px",
-              backgroundColor: darkMode ? "#242424" : "#D9D9D9",
-              padding: "10px",
-            }}
-          >
+          <div className="mt-3">
             <TextInput username={username} />
           </div>
         </div>
