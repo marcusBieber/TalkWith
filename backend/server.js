@@ -2,10 +2,11 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import cors from "cors";
+import { addChatMessage, getChatMessages, } from "./database/database.js";
 
 const app = express();
 const server = createServer(app);
-const Port = 3000;
+const port = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -26,8 +27,11 @@ io.on("connection", (socket) => {
   console.log(`User verbunden: ${socket.id}`);
 
   // Benutzernamen über das "set_username"-Event aus dem Frontend empfangen
-  socket.on("set_username", (username) => {
+  socket.on("set_username", async(username) => {
     socket.username = username;
+    //add username to the database
+    await addUser(username, socket.id);
+    console.log(`Username added to database: ${username}`);
     // username zur Benutzerliste hinzufügen
     users.push(username);
     console.log(`${username} hat sich angemeldet!`);
@@ -36,8 +40,16 @@ io.on("connection", (socket) => {
   });
 
   // Daten über das "send_message"-Event aus dem Frontend empfangen
-  socket.on("send_message", (messageData) => {
+  socket.on("send_message", async(messageData) => {
     console.log(`Nachricht von ${socket.username}:`, messageData);
+    try {
+      // Add the chat message to the database
+      await addChatMessage(messageData.user, messageData.text, messageData.id, messageData.timestamp);
+      console.log("Message added to database");
+      // Broadcast the message to other clients
+    } catch (error) {
+      console.error("Error processing message:", error);
+    }
     // Daten über das "receive_message"-Event ins Frontend senden
     io.emit("receive_message", messageData);
   });
@@ -51,7 +63,32 @@ io.on("connection", (socket) => {
     }
   });
 });
+    
+// Get chat messages from the database
+app.get("/chat", async (req, res) => {
+  try {
+    const chatMessages = await getChatMessages();
+    res.status(200).send(chatMessages);
+  } catch (error) {
+    console.error("Error fetching chat messages:", error);
+    res.status(500).send("Error fetching chat messages");
+  }
+});
 
-server.listen(Port, () => {
-  console.log(`Server läuft auf http://localhost:${Port}`);
+  // Post a new chat message
+app.post("/chat", async(req, res) => {
+   const { userid, text } = req.body;
+   try {
+    await addChatMessage(userid, text);
+    res.send({ message: "Message added successfully" });
+  } catch (error) {
+    console.error("Error adding message:", error);
+    res.status(500).send("Error adding message");
+  }
+});
+
+
+
+server.listen(port, () => {
+  console.log(`Server läuft auf http://localhost:${port}`);
 });
