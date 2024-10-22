@@ -1,7 +1,8 @@
 import { ColorContext } from "./ColorSwitcher";
 import { useState, useContext } from "react";
 import { useSocket } from "./SocketProvider";
-import "../App.css"
+import "../App.css";
+import CustomButton from "./CustomButton";
 
 function TextInput({ username }) {
   const [message, setMessage] = useState("");
@@ -25,66 +26,37 @@ function TextInput({ username }) {
   };
 
   // States für Hover- und Active-Zustände
-  const [isHovered, setIsHovered] = useState(false);
-
-  const buttonStyle = {
-    borderRadius: '20px',
-    transform: `translateY(${isHovered ? '-2px' : '0'})`,
-    padding: "5px 20px",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-    boxShadow: isHovered ? "0px 4px 15px rgba(0, 0, 0, 0.2)" : "none",
-  };
-
-  const maxLineLength = 45
-
-  const handleChange = (event) => {
-    const inputValue = event.target.value;
-
-    // Teile den Text in Zeilen auf
-    const lines = inputValue.split("\n").map(line => {
-      // Bei jeder Zeile: Wenn die Länge die maximale Länge überschreitet, teile sie in neue Zeilen
-      if (line.length > maxLineLength) {
-        const newLines = [];
-        for (let i = 0; i < line.length; i += maxLineLength) {
-          newLines.push(line.slice(i, i + maxLineLength));
-        }
-        return newLines.join("\n"); // Füge die neuen Zeilen wieder zusammen
-      }
-      return line; // Gebe die Zeile unverändert zurück, wenn sie die maximale Länge nicht überschreitet
-    });
-
-    // Verbinde alle Zeilen mit einem Zeilenumbruch
-    setMessage(lines.join("\n"));
-  };
+  const [isHovered] = useState(false);
 
   return (
     <div className="d-flex flex-column align-items-center w-100">
-      <input
+      <textarea
         type="text"
         id="input"
         placeholder="schreib' eine Nachricht..."
         value={message}
-        onChange={handleChange}  // Hier wird die handleChange-Funktion genutzt
         className={`input-field ${darkMode ? "dark" : ""}`}
+        onChange={(e) => setMessage(e.target.value)} // Hier wird der State aktualisiert
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault(); // Verhindert den Umbruch bei "Enter" ohne Shift
             sendMessage(); // Sende die Nachricht
           }
         }}
+        style={{
+          width: "100%", // Breite auf 100% setzen
+          height: "70px", // Höhe anpassen, damit genug Platz für Text ist
+          resize: "none", // Verhindert die Größenänderung des Textareas
+        }}
       />
-
-       <button
-        onClick={sendMessage}
-        className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
-        style={{...buttonStyle, margin: "10px 0",}}
-        onMouseEnter={() => setIsHovered(true)}  // Hover aktivieren
-        onMouseLeave={() => setIsHovered(false)} // Hover deaktivieren
-        onMouseDown={() => setIsActive(true)}     // Active aktivieren
-        onMouseUp={() => setIsActive(false)}      // Active deaktivieren
-      >
-        Senden
-      </button>
+      <div style={{ marginTop: "15px" }}>
+        <CustomButton
+          onClick={sendMessage}
+          className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
+        >
+          Senden
+        </CustomButton>
+      </div>
     </div>
   );
 }

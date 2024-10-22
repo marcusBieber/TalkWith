@@ -2,7 +2,7 @@ html, body {
   height: 100%; /* Setzt die Höhe von HTML und Body auf 100% */
   margin: 0;
   padding: 0;
-  overflow: auto; /* Deaktiviert das Scrollen */
+  overflow: hidden; /* Deaktiviert das Scrollen */
   max-height: 100vh;
 }
 

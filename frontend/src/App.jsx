@@ -56,6 +56,7 @@ const MainComponent = ({ username, setUsername }) => {
         }}
       >
         <div className="d-flex align-items-center justify-content-between">
+        <LogOff setUsername={setUsername}/>
           <h1
             className="text-center mb-0 flex-grow-1"
             style={{ fontFamily: "Inter, sans-serif", fontWeight: 100 }}
@@ -63,7 +64,6 @@ const MainComponent = ({ username, setUsername }) => {
             ChatWith
           </h1>
           <ColorSwitcher />
-          <LogOff setUsername={setUsername}/>
         </div>
       </div>
 
