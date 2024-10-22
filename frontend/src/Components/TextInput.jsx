@@ -11,7 +11,8 @@ function TextInput({ username }) {
   // Nachrichten-Objekt konstruieren und ins Backend schicken
   const sendMessage = () => {
     if (socket) {
-      // konstruieren des Nachrichten-Objekts mit "id", "text" und "timestamp"
+      // konstruieren eines Nachrichten-Objekts 
+      // mit "id", "user", "text" und "timestamp"
       const messageData = {
         id: Date.now(),
         user: username,
@@ -40,20 +41,20 @@ function TextInput({ username }) {
   const handleChange = (event) => {
     const inputValue = event.target.value;
 
-    // Teile den Text in Zeilen auf
+    // Teilt den Text in Zeilen auf
     const lines = inputValue.split("\n").map(line => {
-      // Bei jeder Zeile: Wenn die Länge die maximale Länge überschreitet, teile sie in neue Zeilen
+      // Bei jeder Zeile: Wenn die aktuelle Länge die maximale Länge überschreitet, teile sie in neue Zeilen
       if (line.length > maxLineLength) {
         const newLines = [];
         for (let i = 0; i < line.length; i += maxLineLength) {
           newLines.push(line.slice(i, i + maxLineLength));
         }
-        return newLines.join("\n"); // Füge die neuen Zeilen wieder zusammen
+        return newLines.join("\n"); // Fügt die neuen Zeilen wieder zusammen
       }
-      return line; // Gebe die Zeile unverändert zurück, wenn sie die maximale Länge nicht überschreitet
+      return line; // Gibt die Zeile unverändert zurück, wenn sie die maximale Länge nicht überschreitet
     });
 
-    // Verbinde alle Zeilen mit einem Zeilenumbruch
+    // Verbindet alle Zeilen mit einem Zeilenumbruch
     setMessage(lines.join("\n"));
   };
 
@@ -69,7 +70,7 @@ function TextInput({ username }) {
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault(); // Verhindert den Umbruch bei "Enter" ohne Shift
-            sendMessage(); // Sende die Nachricht
+            sendMessage(); // Sendet die Nachricht
           }
         }}
       />

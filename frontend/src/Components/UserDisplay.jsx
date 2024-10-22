@@ -1,22 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ColorContext } from "./ColorSwitcher";
+import { useSocket } from "./SocketProvider";
 
-const dummyUsers = [
-  { id: 1, name: "Kaho" },
-  { id: 2, name: "Marcus" },
-  { id: 3, name: "Ilona" },
-];
 function UserDisplay() {
   const { darkMode } = useContext(ColorContext);
   const [users, setUsers] = useState([]);
+  const socket = useSocket(); // importieren der Socket-Verbindung
 
-  const fetchUsers = () => {
-    setUsers(dummyUsers);
-  };
-
+  // Benutzerliste vom Server empfangen, zum Rendern im State speichern
+  // und bei jedem An- und Abmelden aktualisieren
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    if (socket) {
+      socket.on("update_user", (users) => {
+        setUsers(users);
+      });
+    }
+  }, [socket]);
 
   return (
     <div className="d-flex flex-column align-items-center">
@@ -30,13 +29,12 @@ function UserDisplay() {
 
         }}
       >
-        User
       </h3>
       <div className="list-group" style={{fontFamily: "Inter, sans-serif",
           fontWeight: 600,}}>
-        {users.map((user) => (
+        {users.map((user, index) => (
           <div
-            key={user.id}
+            key={index}
             className="list-group-item d-flex justify-content-between align-items-center"
             style={{
               backgroundColor: darkMode ? "#565656" : "#EAEAEA",
@@ -44,7 +42,7 @@ function UserDisplay() {
               boxShadow: darkMode ? "0px 4px 10px rgba(0, 0, 0, 0.5)" : "0px 4px 10px rgba(0, 0, 0, 0.1)",
             }}
           >
-            <span className="fw-bold">{user.name}</span>
+            <span className="fw-bold">{user}</span>
             <i
               className="fas fa-user-circle"
               style={{
