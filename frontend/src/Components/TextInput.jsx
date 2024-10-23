@@ -41,6 +41,7 @@ function TextInput({ username }) {
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault(); // Verhindert den Umbruch bei "Enter" ohne Shift
+            sendMessage();
           }
         }}
         style={{
