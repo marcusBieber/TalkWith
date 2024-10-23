@@ -21,8 +21,8 @@ function ChatHistory({ username }) {
           id: msg.id,
           user: msg.username,
           text: msg.text,
-          timestamp: formatDate(new Date(msg.date)), // Custom format function
-          isUser: msg.username === username, // isUser is set to true if the message was sent by the user
+          timestamp: msg.date,
+          isUser: msg.username === username, // // isUser is set to true if the message was sent by the user that is currently logged in
         }));
 
         // Add messages to state (setMessages(...))
@@ -102,8 +102,8 @@ function ChatHistory({ username }) {
             style={{
               backgroundColor: msg.isUser
                 ? darkMode
-                  ? "#1e90ff"
-                  : "#00bfff"
+                  ? "#989898"
+                  : "#fefefe"
                 : darkMode
                   ? "#444444"
                   : "#EAEAEA",

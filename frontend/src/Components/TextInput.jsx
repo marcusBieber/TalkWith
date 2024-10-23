@@ -13,10 +13,10 @@ function TextInput({ username }) {
   const sendMessage = () => {
     if (socket) {
       const messageData = {
-        id: Date.now(),                             // Unique ID for the message
-        user: username,                             // Username of the sender
-        text: message,                              // Message content
-        timestamp: new Date().toISOString(),        // Timestamp in ISO format
+        id: Date.now(),
+        user: username,
+        text: message,
+        timestamp: new Date().toString().slice(0, 21), // Use ISO format for better compatibility
       };
       socket.emit("send_message", messageData);     // Emit message to the backend
       setMessage("");                               // Clear the input field after sending
@@ -33,8 +33,8 @@ function TextInput({ username }) {
         onChange={(e) => setMessage(e.target.value)} // Update state on input change
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault();                 // Prevent line breaks on Enter
-            sendMessage();                          // Send message when Enter is pressed
+            event.preventDefault(); // Verhindert den Umbruch bei "Enter" ohne Shift
+            sendMessage();
           }
         }}
         style={{
