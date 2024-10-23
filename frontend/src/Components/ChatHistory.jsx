@@ -67,7 +67,7 @@ function ChatHistory({ username }) {
           key={msg.id}
           className={`d-flex mb-2 ${
             msg.isUser ? "justify-content-end" : "justify-content-start"
-          }`}
+            }`}
         >
           <div
             className={`p-2 rounded w-100 shadow`}
@@ -77,8 +77,8 @@ function ChatHistory({ username }) {
                   ? "#1e90ff"
                   : "#00bfff"
                 : darkMode
-                ? "#444444"
-                : "#EAEAEA",
+                  ? "#444444"
+                  : "#EAEAEA",
               color: darkMode ? "#ffffff" : "#000000",
               maxWidth: "100%",
               wordWrap: "break-word",

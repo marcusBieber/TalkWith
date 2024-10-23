@@ -1,3 +1,4 @@
+import React, { useState, useContext } from "react";
 import { ColorContext } from "./ColorSwitcher";
 import { useState, useContext } from "react";
 import { useSocket } from "./SocketProvider";
@@ -32,7 +33,7 @@ function TextInput({ username }) {
         id="input"
         placeholder="schreib' eine Nachricht..."
         value={message}
-        onChange={handleChange}  // Hier wird die handleChange-Funktion genutzt
+        onChange={(e) => setMessage(e.target.value)}
         className={`input-field ${darkMode ? "dark" : ""}`}
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
@@ -41,14 +42,9 @@ function TextInput({ username }) {
           }
         }}
       />
-       <button
+      <button
         onClick={sendMessage}
         className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
-        style={{...buttonStyle, margin: "10px 0",}}
-        onMouseEnter={() => setIsHovered(true)}  // Hover aktivieren
-        onMouseLeave={() => setIsHovered(false)} // Hover deaktivieren
-        onMouseDown={() => setIsActive(true)}     // Active aktivieren
-        onMouseUp={() => setIsActive(false)}      // Active deaktivieren
       >
         Senden
       </button>
