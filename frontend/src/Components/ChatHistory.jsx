@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ColorContext } from "./ColorSwitcher";
 import { useSocket } from "./SocketProvider";
 
-function ChatHistory() {
+function ChatHistory({ username }) {
   const { darkMode } = useContext(ColorContext);
   const [messages, setMessages] = useState([]);
   const socket = useSocket(); // importieren der Socket-Verbindung
@@ -10,6 +10,29 @@ function ChatHistory() {
   // Nachrichten-Objekt aus dem Backend empfangen,
   // im State speichern und in der Komponente anzeigen
   useEffect(() => {
+    // Fetch messages from database via /chat GET request and add to state
+    async function getChatMessages() {
+      try {
+        const response = await fetch("http://localhost:3000/chat");
+        const data = await response.json();
+        console.log(data);
+        // Convert messages into proper format (id, isUser, text, user, timestamp)
+        const formattedMessages = data.map((msg) => ({
+          id: msg.id,
+          user: msg.username,
+          text: msg.text,
+          timestamp: new Date(msg.date).toLocaleString(),
+          isUser: msg.username === username, // // isUser is set to true if the message was sent by the user that is currently logged in
+        }));
+
+        // Add messages to state (setMessages(...))
+        setMessages(formattedMessages);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    }
+    getChatMessages();
+
     if (socket) {
       // Nachrichten-Objekt über das "receive_message"-Event aus dem Backend empfangen
       socket.on("receive_message", (message) => {

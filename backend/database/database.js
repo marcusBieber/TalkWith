@@ -16,23 +16,11 @@ function initializeDatabase() {
                 }
             });
 
-            db.run(`CREATE TABLE IF NOT EXISTS users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT UNIQUE,
-                password TEXT
-            )`, (err) => {
-                if (err) {
-                    console.error("Error creating table:", err.message);
-                } else {
-                    console.log("Table `users` created or already exists.");
-                }
-            });
             db.run(`CREATE TABLE IF NOT EXISTS chatmessages (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 text TEXT,
                 date TEXT,
-                userid INTEGER,
-                FOREIGN KEY (userid) REFERENCES users(id)
+                username TEXT
             )`, (err) => {
                 if (err) {
                     console.error("Error creating table:", err.message);
@@ -48,27 +36,14 @@ function initializeDatabase() {
 
 const db = initializeDatabase();
 
-// FIXME Uses a dummy user until we have authentication
-const username = "dummyuser";
-const password = "dummypassword";
-
-// Might throw a promise rejection if user already exists
-addUser(username, password).catch((err) => {
-    console.error("Error adding user:", err.message);
-});
-
-// Retrieve user by username
-let user = await getUserByName(username);
-user = user[0];
-
 // Add a new chat message
-export function addChatMessage(text,id,timestamp, userid=user.id) {
+export function addChatMessage(username, text,id,timestamp) {
     return new Promise((resolve, reject) => {
-        if (!userid || !text) {
-            return reject("User ID and text are required.");
+        if (!username || !text || !id || !timestamp) {
+            return reject("One of the fields was empty.");
         }
-        db.run(`INSERT INTO chatmessages (id, userid, text, date) VALUES (?, ?, ?, ?)`, 
-               [id, userid, text, timestamp], (err) => {
+        db.run(`INSERT INTO chatmessages (id, text, date, username) VALUES (?, ?, ?, ?)`, 
+               [id, text, timestamp, username], (err) => {
             if (err) {
                 return reject(`Error inserting data: ${err.message}`);
             }
@@ -86,74 +61,6 @@ export function getChatMessages(number=100) {
                 return reject(`Error fetching data: ${err.message}`);
             } else {
                 resolve(rows);
-            }
-        });
-    });
-}
-
-// Add a new user
-export function addUser(username, password) {
-    return new Promise((resolve, reject) => {
-        if (!username || !password) {
-            return reject("Username and password are required.");
-        }
-        // TODO Password should be hashed
-        db.run(`INSERT INTO users (username, password) VALUES (?, ?)`, [username, password], (err) => {
-            if (err) {
-                return reject(`Error inserting data: ${err.message}`);
-            }
-            resolve("User added successfully.");
-        });
-    });
-}
-
-// Get a single user
-// Get user by username
-export function getUserByName(username) {
-    return new Promise((resolve, reject) => {
-		// TODO Reject if username is empty
-        db.all(`SELECT * FROM users WHERE username = ?`, [username], (err, rows) => {
-            if (err) {
-                return reject(`Error fetching users: ${err.message}`);
-            }
-            resolve(rows); // Resolve with the array of users
-        });
-    });
-}
-
-// Delete a user
-export function deleteUser(userid) {
-    return new Promise((resolve, reject) => {
-		// TODO Reject if userid is not a number or negative
-        db.run(`DELETE FROM users WHERE id = ?`, [userid], (err) => {
-            if (err) {
-                reject(`Error deleting data: ${err.message}`);
-            } else {
-                resolve("Data deleted successfully.");
-            }
-        });
-    });
-}
-
-// Rename user
-export function renameUser(userid, newUsername) {
-    return new Promise((resolve, reject) => {
-		// TODO Reject if newUsername is empty
-		// TODO Reject if userid is not a number or negative
-        db.get(`SELECT 1 FROM users WHERE username = ?`, [newUsername], (err, row) => {
-            if (err) {
-                return reject(`Error checking username: ${err.message}`);
-            }
-            if (row) {
-                reject("Username already taken.");
-            } else {
-                db.run(`UPDATE users SET username = ? WHERE id = ?`, [newUsername, userid], (err) => {
-                    if (err) {
-                        reject(`Error renaming user: ${err.message}`);
-                    } else {
-                        resolve("User renamed successfully.");
-                    }
-                });
             }
         });
     });
@@ -188,20 +95,11 @@ export function resetDatabase() {
                             reject(`Error deleting chat messages: ${err.message}`);
                         });
                     }
-
-                    db.run(`DELETE FROM users`, (err) => {
+                    db.run(`COMMIT`, (err) => {
                         if (err) {
-                            return db.run(`ROLLBACK`, () => {
-                                reject(`Error deleting users: ${err.message}`);
-                            });
+                            return reject(`Error committing database reset: ${err.message}`);
                         }
-
-                        db.run(`COMMIT`, (err) => {
-                            if (err) {
-                                return reject(`Error committing database reset: ${err.message}`);
-                            }
-                            resolve("Database reset successfully.");
-                        });
+                        resolve("Database reset successfully.");
                     });
                 });
             });
