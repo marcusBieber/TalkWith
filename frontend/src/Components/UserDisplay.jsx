@@ -28,6 +28,9 @@ function UserDisplay() {
             className="list-group-item d-flex justify-content-between align-items-center"
             style={{
               backgroundColor: darkMode ? "#565656" : "#EAEAEA",
+              overflow: "hidden", // Verhindert, dass der Text überläuft
+              textOverflow: "ellipsis", // Fügt "..." hinzu, wenn der Text zu lang ist
+              whiteSpace: "nowrap", // Verhindert Zeilenumbrüche
               color: darkMode ? "#ffffff" : "#000000",
               boxShadow: darkMode ? "0px 4px 10px rgba(0, 0, 0, 0.5)" : "0px 4px 10px rgba(0, 0, 0, 0.1)",
             }}
@@ -36,9 +39,13 @@ function UserDisplay() {
             <i
               className="fas fa-user-circle"
               style={{
-                padding: "0 50px 0 50px",
-                fontSize: "24px",
-                color: darkMode ? '#EAEAEA' : '#d9d9d9',
+                  width:"80px",
+                  textAlign:"right",
+                  marginLeft: '5px', // Minimale Lücke zwischen Name und Icon
+                  fontSize: "24px",
+                  color: darkMode ? '#EAEAEA' : '#d9d9d9',
+                  padding: 0,
+                  margin: 0,
               }}
             ></i>
           </div>

@@ -93,8 +93,13 @@ function ChatHistory({ username }) {
             }}
           >
             <p style={{ fontSize: "24px" }}>{msg.text}</p>
-            <p style={{fontFamily: "Inter, sans-serif",
-                fontWeight: 600, fontSize: "16px" }}>
+            <p
+              style={{
+                fontFamily: "Inter, sans-serif",
+                fontWeight: 600,
+                fontSize: "16px",
+              }}
+            >
               {msg.user}
               <span style={{ fontSize: "8px" }}> {msg.timestamp}</span>
             </p>
