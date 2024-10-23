@@ -82,8 +82,8 @@ function ChatHistory({ username }) {
             style={{
               backgroundColor: msg.isUser
                 ? darkMode
-                  ? "#1e90ff"
-                  : "#00bfff"
+                  ? "#989898"
+                  : "#fefefe"
                 : darkMode
                 ? "#444444"
                 : "#EAEAEA",
