@@ -2,7 +2,7 @@ html, body {
   height: 100%; /* Setzt die Höhe von HTML und Body auf 100% */
   margin: 0;
   padding: 0;
-  overflow: auto; /* Deaktiviert das Scrollen */
+  overflow: hidden; /* Deaktiviert das Scrollen */
   max-height: 100vh;
 }
 
@@ -105,7 +105,8 @@ html, body {
 /* Media Queries für verschiedene Bildschirmgrößen */
 @media (max-width: 768px) {
   .container-fluid {
-    flex-direction: column; /* Vertikale Anordnung auf kleinen Bildschirmen */
+    flex-direction: column; 
+    /* Vertikale Anordnung auf kleinen Bildschirmen */
   }
 
   .sidebar {

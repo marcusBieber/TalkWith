@@ -1,5 +1,6 @@
 import React from "react";
 import { useSocket } from "./SocketProvider";
+import CustomButton from "./CustomButton";
 
 // Websocket Verbindung trennen und und Benutzername aus State löschen
 // löschen des Benutzernamens bewirkt Neu-Rendern der Login-Komponente
@@ -14,9 +15,9 @@ function LogOff({ setUsername }) {
   };
 
   return (
-        <button onClick={handleLogOff}>
+        <CustomButton onClick={handleLogOff}>
             Abmelden
-        </button>
+        </CustomButton>
     );
 }
 
