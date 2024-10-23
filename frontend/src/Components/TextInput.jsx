@@ -1,7 +1,8 @@
 import { ColorContext } from "./ColorSwitcher";
 import { useState, useContext } from "react";
 import { useSocket } from "./SocketProvider";
-import "../App.css"
+import "../App.css";
+import CustomButton from "./CustomButton";
 
 function TextInput({ username }) {
   const [message, setMessage] = useState("");
@@ -25,33 +26,38 @@ function TextInput({ username }) {
     }
   };
 
+  // States für Hover- und Active-Zustände
+  const [isHovered] = useState(false);
+
   return (
     <div className="d-flex flex-column align-items-center w-100">
-      <input
+      <textarea
         type="text"
         id="input"
         placeholder="schreib' eine Nachricht..."
         value={message}
-        onChange={handleChange}  // Hier wird die handleChange-Funktion genutzt
         className={`input-field ${darkMode ? "dark" : ""}`}
+        onChange={(e) => setMessage(e.target.value)} // Hier wird der State aktualisiert
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault(); // Verhindert den Umbruch bei "Enter" ohne Shift
             sendMessage(); // Sendet die Nachricht
           }
         }}
+        style={{
+          width: "100%", // Breite auf 100% setzen
+          height: "70px", // Höhe anpassen, damit genug Platz für Text ist
+          resize: "none", // Verhindert die Größenänderung des Textareas
+        }}
       />
-       <button
-        onClick={sendMessage}
-        className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
-        style={{...buttonStyle, margin: "10px 0",}}
-        onMouseEnter={() => setIsHovered(true)}  // Hover aktivieren
-        onMouseLeave={() => setIsHovered(false)} // Hover deaktivieren
-        onMouseDown={() => setIsActive(true)}     // Active aktivieren
-        onMouseUp={() => setIsActive(false)}      // Active deaktivieren
-      >
-        Senden
-      </button>
+      <div style={{ marginTop: "15px" }}>
+        <CustomButton
+          onClick={sendMessage}
+          className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
+        >
+          Senden
+        </CustomButton>
+      </div>
     </div>
   );
 }
