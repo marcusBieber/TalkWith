@@ -18,7 +18,15 @@ function UserDisplay() {
   }, [socket]);
 
   return (
-    <div className="d-flex flex-column align-items-center">
+    <div className="d-flex flex-column flex-grow-1"
+     style={{
+      border: "none",
+      borderRadius: "5px",
+      backgroundColor: darkMode ? "#242424" : "#D9D9D9",
+      margin: "3px",
+      maxHeight: "calc(100vh - 125px)", // Maximale Höhe entsprechend anpassen
+      minWidth: "0",
+    }}>
       <div className="list-group" style={{ marginTop: "20px", fontFamily: "Inter, sans-serif",
 
           fontWeight: 600,}}>
