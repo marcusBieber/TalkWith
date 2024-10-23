@@ -21,7 +21,7 @@ function ChatHistory({ username }) {
           id: msg.id,
           user: msg.username,
           text: msg.text,
-          timestamp: new Date(msg.date).toLocaleString(),
+          timestamp: msg.date,
           isUser: msg.username === username, // // isUser is set to true if the message was sent by the user that is currently logged in
         }));
 

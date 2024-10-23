@@ -18,7 +18,7 @@ function TextInput({ username }) {
         id: Date.now(),
         user: username,
         text: message,
-        timestamp: new Date().toISOString(), // Use ISO format for better compatibility
+        timestamp: new Date().toString().slice(0, 21), // Use ISO format for better compatibility
       };
       // senden des Nachrichten-Objekts über das "send_message"-Event
       socket.emit("send_message", messageData);
@@ -41,7 +41,6 @@ function TextInput({ username }) {
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault(); // Verhindert den Umbruch bei "Enter" ohne Shift
-            sendMessage(); // Sendet die Nachricht
           }
         }}
         style={{
