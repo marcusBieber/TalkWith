@@ -21,7 +21,6 @@ function Login({ onLogin }) {
       style={{ backgroundColor: "#D9D9D9" }}
     >
       <div className="text-center">
-        {/* Verwende die AnimatedHeader-Komponente hier */}
         <AnimatedHeader />
         <form style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}>
           <div className="mb-2 d-flex align-items-center">
