@@ -36,13 +36,8 @@ function ChatHistory({ username }) {
     if (socket) {
       // Nachrichten-Objekt über das "receive_message"-Event aus dem Backend empfangen
       socket.on("receive_message", (message) => {
-        const formattedMessage = {
-          ...message,
-          timestamp: formatDate(new Date(message.timestamp)),
-          isUser: message.user === username,
-        };
         // Nachrichten-Objekte speichern
-        setMessages((prevMessages) => [...prevMessages, formattedMessage]);
+        setMessages((prevMessages) => [...prevMessages, message]);
       });
     }
     return () => {
@@ -52,21 +47,6 @@ function ChatHistory({ username }) {
       }
     };
   }, [socket]);
-
-  // Function to format date as DD/MM/YYYY, HH:MM
-  const formatDate = (date) => {
-    const options = {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    };
-    const datePart = date.toLocaleDateString("de-DE", options); // German locale for DD/MM/YYYY
-    const timePart = date.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-    }); // Time in 24-hour format
-    return `${datePart}, ${timePart}`; // Combine date and time
-  };
 
   return (
     <div
@@ -80,8 +60,8 @@ function ChatHistory({ username }) {
         scrollbarWidth: "thin",
         scrollbarColor: darkMode ? "#888 #242424" : "#888 #EAEAEA",
         boxShadow: darkMode
-          ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Darker shadow in dark mode
-          : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Lighter shadow in light mode
+          ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
+          : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus
       }}
       className="scrollbar"
     >
@@ -93,8 +73,8 @@ function ChatHistory({ username }) {
           }`}
           style={{
             boxShadow: darkMode
-              ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Darker shadow in dark mode
-              : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Lighter shadow in light mode
+              ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
+              : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus
           }}
         >
           <div
@@ -105,8 +85,8 @@ function ChatHistory({ username }) {
                   ? "#989898"
                   : "#fefefe"
                 : darkMode
-                  ? "#444444"
-                  : "#EAEAEA",
+                ? "#444444"
+                : "#EAEAEA",
               color: darkMode ? "#ffffff" : "#000000",
               maxWidth: "100%",
               wordWrap: "break-word",
