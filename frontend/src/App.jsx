@@ -88,19 +88,24 @@ const MainComponent = ({ username, setUsername }) => {
         </div>
       </div>
 
-      <div className="d-flex flex-grow-1 " style={{ gap: "15px" }}>
+      <div className="d-flex flex-grow-1 " style={{ gap: "15px", marginBottom: "15px", }}>
         {/* Sidebar für die Benutzerliste */}
         <div
           className={`sidebar d-flex flex-column align-items-center ${
             darkMode ? "shadow" : "shadow-sm"
           }`}
           style={{
-            width: "250px",
             border: "none",
             borderRadius: "5px",
             color: "#565353",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
+            marginBottom: "1px",
             margin: "3px",
+            maxHeight: "calc(100vh - 125px)", 
+            flex: "0 0 250px", 
+            minWidth: "0",
+            
+
           }}
         >
           <div className="d-flex align-items-start justify-content-start">
@@ -110,23 +115,28 @@ const MainComponent = ({ username, setUsername }) => {
 
         {/* Chat-Historie */}
         <div
-          className={`chat-history flex-grow-1 overflow-auto ${
+          className={`chat-history flex-grow-1 ${
             darkMode ? "shadow" : "shadow-sm"
           }`}
           style={{
             border: "none",
-            width: "30px",
-            height: "820px",
             borderRadius: "5px",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
             padding: "15px",
             margin: "3px",
+            marginBottom: "15px", // Abstand zum unteren Ende der Website
+            maxHeight: "calc(100vh - 125px)",
+            display: "flex",
+            flexDirection: "column",
+            flex: "1", // Flexgrow für die Chatbox
+            minWidth: "0",
           }}
         >
           <ChatHistory username={username} darkMode={darkMode} />
           {/* Texteingabe */}
-          <div className="mt-3">
+          <div className="mt-3" >
             <TextInput username={username} />
+
           </div>
         </div>
       </div>

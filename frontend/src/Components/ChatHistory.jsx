@@ -51,6 +51,7 @@ function ChatHistory({ username }) {
   return (
     <div
       style={{
+        margin:"3px",
         backgroundColor: darkMode ? "#242424" : "#EAEAEA",
         height: "650px",
         overflowY: "scroll",
@@ -62,6 +63,7 @@ function ChatHistory({ username }) {
         boxShadow: darkMode
           ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
           : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus
+          maxWidth: "100%",
       }}
       className="scrollbar"
     >
@@ -71,7 +73,7 @@ function ChatHistory({ username }) {
           className={`d-flex mb-2 ${
             msg.isUser ? "justify-content-end" : "justify-content-start"
           }`}
-          style={{
+          style={{maxWidth: "100%",
             boxShadow: darkMode
               ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
               : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus

@@ -48,12 +48,15 @@ function TextInput({ username }) {
           width: "100%", // Breite auf 100% setzen
           height: "70px", // Höhe anpassen, damit genug Platz für Text ist
           resize: "none", // Verhindert die Größenänderung des Textareas
+          maxWidth: "100%", // Damit das Textfeld nicht zu breit wird
+          marginBottom: "10px",
         }}
       />
-      <div style={{ marginTop: "15px" }}>
+      <div style={{ marginTop: "1px" }}>
         <CustomButton
           onClick={sendMessage}
           className={`btn btn-custom ${darkMode ? "btn-dark" : "btn-light"}`}
+          style={{ width: "100%", maxWidth: "300px" }}
         >
           Senden
         </CustomButton>

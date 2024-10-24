@@ -22,7 +22,7 @@ function Login({ onLogin }) {
     >
       <div className="text-center">
         <AnimatedHeader />
-        <form style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}>
+        <div style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}>
           <div className="mb-2 d-flex align-items-center">
             <input
               className="shadow"
@@ -53,7 +53,7 @@ function Login({ onLogin }) {
               Anmelden
             </CustomButton>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
