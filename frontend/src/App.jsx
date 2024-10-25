@@ -103,7 +103,8 @@ const MainComponent = ({ username, setUsername }) => {
             margin: "3px",
             maxHeight: "calc(100vh - 125px)", 
             flex: "0 0 250px", 
-            minWidth: "0",
+            flexShrink: 0,
+            overflowY: "auto",
             
 
           }}
@@ -115,7 +116,7 @@ const MainComponent = ({ username, setUsername }) => {
 
         {/* Chat-Historie */}
         <div
-          className={`chat-history flex-grow-1 ${
+          className={` flex-grow-1 ${
             darkMode ? "shadow" : "shadow-sm"
           }`}
           style={{
@@ -123,8 +124,6 @@ const MainComponent = ({ username, setUsername }) => {
             borderRadius: "5px",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
             padding: "15px",
-            margin: "3px",
-            marginBottom: "15px", // Abstand zum unteren Ende der Website
             maxHeight: "calc(100vh - 125px)",
             display: "flex",
             flexDirection: "column",

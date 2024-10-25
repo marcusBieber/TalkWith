@@ -53,8 +53,8 @@ function ChatHistory({ username }) {
       style={{
         margin:"3px",
         backgroundColor: darkMode ? "#242424" : "#EAEAEA",
-        height: "650px",
-        overflowY: "scroll",
+        maxHeight: "calc(100vh - 160px)", 
+        overflowY: "auto",
         padding: "10px",
         borderRadius: "20px",
         border: darkMode ? "1px solid #555" : "1px solid #ccc",
@@ -63,7 +63,6 @@ function ChatHistory({ username }) {
         boxShadow: darkMode
           ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
           : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus
-          maxWidth: "100%",
       }}
       className="scrollbar"
     >
