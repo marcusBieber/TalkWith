@@ -29,7 +29,7 @@ function UserDisplay() {
       padding: "15px",
 
     }}>
-      <div className="list-group" style={{ marginTop: "20px", fontFamily: "Inter, sans-serif",
+      <div className="list-group" style={{ gap: "15px", fontFamily: "Inter, sans-serif",
 
           fontWeight: 600,}}>
         {users.map((user, index) => (
@@ -37,6 +37,7 @@ function UserDisplay() {
             key={index}
             className="list-group-item d-flex justify-content-between align-items-center"
             style={{
+
               backgroundColor: darkMode ? "#565656" : "#EAEAEA",
               overflow: "hidden", // Verhindert, dass der Text überläuft
               textOverflow: "ellipsis", // Fügt "..." hinzu, wenn der Text zu lang ist

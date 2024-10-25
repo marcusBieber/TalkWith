@@ -3,22 +3,31 @@ html, body {
   padding: 0;
   overflow: clip; 
   height: 100%;
-
 }
 
 .container-fluid {
-  height: 100vh;
+  height: 100%;
   display: flex; /* Flexbox für besseres Layout */
   flex-direction: row; /* Horizontale Anordnung */
   transition: background-color 0.3s ease;
 }
+.header-bar {
+  height: 75px; /* Höhe des Headers */
+}
+.main-content {
+  display: flex; /* Flex für die Hauptinhalte */
+  flex-grow: 1; /* Nimmt den verbleibenden Platz ein */
+  gap: 15px; /* Abstand zwischen den Spalten */
+  padding: 15px; /* Padding für die Hauptinhalte */
+}
 
 .sidebar {
   flex: 0 0 250px; /* Sidebar hat eine feste Breite */
-  height: 100vh;/* Höhe anpassen */
+  height: calc(100vh - 75px);
   overflow-y: auto; /* Ermöglicht Scrollen, wenn der Inhalt zu groß ist */
 }
 .chat-history, .user-display {
+  flex-grow: 1;
   height: calc(100vh - 125px); /* Gleiche Höhe für beide Boxen */
   overflow-y: auto;
 }
