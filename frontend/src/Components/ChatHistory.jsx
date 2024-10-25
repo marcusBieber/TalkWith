@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState,useRef } from "react";
 import { ColorContext } from "./ColorSwitcher";
 import { useSocket } from "./SocketProvider";
 
@@ -6,6 +6,7 @@ function ChatHistory({ username }) {
   const { darkMode } = useContext(ColorContext);
   const [messages, setMessages] = useState([]);
   const socket = useSocket(); // importieren der Socket-Verbindung
+  const messagesEndRef = useRef(null);
 
   // Nachrichten-Objekt aus dem Backend empfangen,
   // im State speichern und in der Komponente anzeigen
@@ -47,6 +48,11 @@ function ChatHistory({ username }) {
       }
     };
   }, [socket]);
+
+  useEffect(() => {
+    // Scrollen zum Ende, wenn Nachrichten hinzugefügt werden
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]); // Abhängig von den Nachrichten
 
   return (
     <div
@@ -108,6 +114,7 @@ function ChatHistory({ username }) {
           </div>
         </div>
       ))}
+      <div ref={messagesEndRef} style={{ height: "0px" }} />
     </div>
   );
 }
