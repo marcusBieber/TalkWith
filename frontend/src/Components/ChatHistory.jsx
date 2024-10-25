@@ -56,11 +56,11 @@ function ChatHistory({ username }) {
   }, [messages]); 
 
   return (
-    <div
+    <div className="chat-history"
       style={{
         margin:"3px",
         backgroundColor: darkMode ? "#242424" : "#EAEAEA",
-        height: "650px",
+        maxHeight: "calc(100vh - 160px)", 
         overflowY: "auto",
         padding: "10px",
         borderRadius: "20px",
@@ -70,9 +70,7 @@ function ChatHistory({ username }) {
         boxShadow: darkMode
           ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
           : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus
-          maxWidth: "100%",
       }}
-      className="scrollbar"
     >
       {messages.map((msg,index) => (
         <div

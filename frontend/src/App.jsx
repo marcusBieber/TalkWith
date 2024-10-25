@@ -51,8 +51,8 @@ const MainComponent = ({ username, setUsername }) => {
           backgroundColor: darkMode ? "#242424" : "#D9D9D9",
           color: darkMode ? "#ffffff" : "#000000",
           padding: "10px",
-          margin: "3px", // Vereinheitlichung der Margen
-          width: "calc(100% - 6px)",
+          marginTop: "3px", // Vereinheitlichung der Margen
+          marginRight: "15px",
         }}
       >
         <div className="d-flex align-items-center justify-content-between">
@@ -91,7 +91,7 @@ const MainComponent = ({ username, setUsername }) => {
       <div className="d-flex flex-grow-1 " style={{ gap: "15px", marginBottom: "15px", }}>
         {/* Sidebar für die Benutzerliste */}
         <div
-          className={`sidebar d-flex flex-column align-items-center ${
+          className={`chat-history d-flex flex-column align-items-center ${
             darkMode ? "shadow" : "shadow-sm"
           }`}
           style={{
@@ -99,23 +99,22 @@ const MainComponent = ({ username, setUsername }) => {
             borderRadius: "5px",
             color: "#565353",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
-            marginBottom: "1px",
-            margin: "3px",
             maxHeight: "calc(100vh - 125px)", 
             flex: "0 0 250px", 
-            minWidth: "0",
+            flexShrink: 0,
+            overflowY: "auto",
             
 
           }}
         >
-          <div className="d-flex align-items-start justify-content-start">
+          <div className=" chat-history d-flex align-items-start justify-content-start">
             <UserDisplay />
           </div>
         </div>
 
         {/* Chat-Historie */}
         <div
-          className={`chat-history flex-grow-1 ${
+          className={` flex-grow-1 ${
             darkMode ? "shadow" : "shadow-sm"
           }`}
           style={{
@@ -123,8 +122,6 @@ const MainComponent = ({ username, setUsername }) => {
             borderRadius: "5px",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
             padding: "15px",
-            margin: "3px",
-            marginBottom: "15px", // Abstand zum unteren Ende der Website
             maxHeight: "calc(100vh - 125px)",
             display: "flex",
             flexDirection: "column",
