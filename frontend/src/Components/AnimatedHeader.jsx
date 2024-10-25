@@ -24,7 +24,7 @@ const AnimatedHeader = () => {
         textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
       }}
     >
-      Wilkommen bei ChatWith!
+      Wilkommen bei Kaiwa!
     </h1>
   );
 };
