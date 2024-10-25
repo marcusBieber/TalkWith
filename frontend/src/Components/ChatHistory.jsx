@@ -48,6 +48,13 @@ function ChatHistory({ username }) {
     };
   }, [socket]);
 
+  useEffect(() => {
+    const lastMessageElement = document.querySelector(".last-message");
+    if (lastMessageElement) {
+      lastMessageElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]); 
+
   return (
     <div
       style={{
@@ -66,12 +73,13 @@ function ChatHistory({ username }) {
       }}
       className="scrollbar"
     >
-      {messages.map((msg) => (
+      {messages.map((msg,index) => (
         <div
           key={msg.id}
           className={`d-flex mb-2 ${
             msg.isUser ? "justify-content-end" : "justify-content-start"
-          }`}
+          }
+          ${index === messages.length - 1 ? "last-message" : ""}`} // Add "last-message" class to the last element`}
           style={{maxWidth: "100%",
             boxShadow: darkMode
               ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
