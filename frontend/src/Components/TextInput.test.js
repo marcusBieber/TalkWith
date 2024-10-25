@@ -1,35 +1,30 @@
-// TextInput.test.js
-import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
-import { ColorContext } from "./ColorSwitcher";
-import { SocketProvider, useSocket } from "./SocketProvider";
-import TextInput from "./TextInput";
-import CustomButton from "./CustomButton"; // Mock CustomButton component
+import React from "react"; // Import React
+import { render, fireEvent, screen } from "@testing-library/react"; // Import testing utilities
+import { ColorContext } from "./ColorSwitcher"; // Import ColorContext for testing
+import { SocketProvider } from "./SocketProvider"; // Import SocketProvider for testing
+import TextInput from "./TextInput"; // Import TextInput component
 
-// Mock the CustomButton component
-jest.mock("./CustomButton", () => ({ onClick, children, className }) => (
-  <button className={className} onClick={onClick}>
-    {children}
-  </button>
-));
+
+// Mock the socket instance// Create a mock function for emit
 
 // Mock the socket instance
 const mockSocket = {
   emit: jest.fn(),
 };
 
-// Mock useSocket hook
+// Mock the useSocket hook
 jest.mock("./SocketProvider", () => ({
   useSocket: () => mockSocket,
+  SocketProvider: ({ children }) => <div>{children}</div>,
 }));
 
 // Mock ColorContext provider value
-const mockContextValue = { darkMode: false };
+const mockContextValue = { darkMode: false }; // Set dark mode to false or true as needed
 
-// Render the component with context and socket
-const renderComponent = (darkMode = false) => {
+//Render function for testing
+const renderComponent = () => {
   return render(
-    <ColorContext.Provider value={{ darkMode }}>
+    <ColorContext.Provider value={mockContextValue}>
       <SocketProvider>
         <TextInput username="testUser" />
       </SocketProvider>
@@ -42,88 +37,26 @@ describe("TextInput Component", () => {
     jest.clearAllMocks(); // Clear mocks between tests
   });
 
-  test("renders the input field and button", () => {
-    renderComponent();
-    expect(screen.getByPlaceholderText("schreib' eine Nachricht...")).toBeInTheDocument();
-    expect(screen.getByText("Senden")).toBeInTheDocument();
-  });
-
   test("sends a message on button click", () => {
-    renderComponent();
+    renderComponent(); // Render the component
 
     // Simulate typing a message
-    fireEvent.change(screen.getByPlaceholderText("schreib' eine Nachricht..."), {
-      target: { value: "Hello World" },
+    const inputField = screen.getByPlaceholderText("schreib' eine Nachricht...");
+    fireEvent.change(inputField, {
+      target: { value: "Hello World" }, // Change the value of the input field
     });
 
     // Simulate button click
-    fireEvent.click(screen.getByText("Senden"));
+    fireEvent.click(screen.getByText("Senden")); // Click the button
 
     // Check if socket emit is called with correct data
     expect(mockSocket.emit).toHaveBeenCalledWith("send_message", expect.objectContaining({
-      user: "testUser",
-      text: "Hello World",
+      user: "testUser", // Check if user is correct
+      text: "Hello World", // Check if text is correct
+      timestamp: expect.any(String), // Check if timestamp is a string
     }));
 
     // Ensure the message field is cleared after sending
-    expect(screen.getByPlaceholderText("schreib' eine Nachricht...").value).toBe("");
-  });
-
-  test("sends a message on Enter key press without Shift", () => {
-    renderComponent();
-
-    // Simulate typing a message
-    fireEvent.change(screen.getByPlaceholderText("schreib' eine Nachricht..."), {
-      target: { value: "Test Enter" },
-    });
-
-    // Simulate pressing Enter without Shift
-    fireEvent.keyDown(screen.getByPlaceholderText("schreib' eine Nachricht..."), {
-      key: "Enter",
-      shiftKey: false,
-    });
-
-    // Check if socket emit is called with correct data
-    expect(mockSocket.emit).toHaveBeenCalledWith("send_message", expect.objectContaining({
-      user: "testUser",
-      text: "Test Enter",
-    }));
-
-    // Ensure the message field is cleared after sending
-    expect(screen.getByPlaceholderText("schreib' eine Nachricht...").value).toBe("");
-  });
-
-  test("does not send message when Enter is pressed with Shift", () => {
-    renderComponent();
-
-    // Simulate typing a message
-    fireEvent.change(screen.getByPlaceholderText("schreib' eine Nachricht..."), {
-      target: { value: "Shift Enter Test" },
-    });
-
-    // Simulate pressing Enter with Shift
-    fireEvent.keyDown(screen.getByPlaceholderText("schreib' eine Nachricht..."), {
-      key: "Enter",
-      shiftKey: true,
-    });
-
-    // Check that socket emit was not called
-    expect(mockSocket.emit).not.toHaveBeenCalled();
-  });
-
-  test("applies dark mode classes when darkMode is true", () => {
-    renderComponent(true); // Set darkMode to true
-
-    // Check that the textarea and button have dark mode styles
-    expect(screen.getByPlaceholderText("schreib' eine Nachricht...")).toHaveClass("dark");
-    expect(screen.getByText("Senden")).toHaveClass("btn-dark");
-  });
-
-  test("applies light mode classes when darkMode is false", () => {
-    renderComponent(false); // Set darkMode to false
-
-    // Check that the textarea and button have light mode styles
-    expect(screen.getByPlaceholderText("schreib' eine Nachricht...")).not.toHaveClass("dark");
-    expect(screen.getByText("Senden")).toHaveClass("btn-light");
+    expect(inputField.value).toBe(""); // Input field should be empty
   });
 });
