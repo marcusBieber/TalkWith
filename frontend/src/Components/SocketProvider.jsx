@@ -20,7 +20,7 @@ export const SocketProvider = ({ children, username }) => {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    socketRef.current = io("http://18.194.62.73:3000");
+    socketRef.current = io("http://localhost:3000");
 
     // Verbindung herstellen und im Custom-Hook speichern
     socketRef.current.on("connect", () => {
