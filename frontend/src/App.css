@@ -1,14 +1,13 @@
 html, body {
-  min-height: 100%; /* Setzt die Höhe von HTML und Body auf 100% */
   margin: 0;
   padding: 0;
   overflow: clip; 
-  max-height: 100vh;
+  height: 100%;
 
 }
 
 .container-fluid {
-  min-height: 100vh;
+  height: 100vh;
   display: flex; /* Flexbox für besseres Layout */
   flex-direction: row; /* Horizontale Anordnung */
   transition: background-color 0.3s ease;
@@ -16,8 +15,12 @@ html, body {
 
 .sidebar {
   flex: 0 0 250px; /* Sidebar hat eine feste Breite */
-  min-height: auto; /* Höhe anpassen */
+  height: 100vh;/* Höhe anpassen */
   overflow-y: auto; /* Ermöglicht Scrollen, wenn der Inhalt zu groß ist */
+}
+.chat-history, .user-display {
+  height: calc(100vh - 125px); /* Gleiche Höhe für beide Boxen */
+  overflow-y: auto;
 }
 
 /* Dunkles Design */
