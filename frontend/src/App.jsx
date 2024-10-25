@@ -8,7 +8,7 @@ import {
   ColorContext,
 } from "./Components/ColorSwitcher";
 import "./App.css";
-import { useContext, useState } from "react";
+import { useContext,useEffect, useRef, useState } from "react";
 import { SocketProvider } from "./Components/SocketProvider";
 import Login from "./Components/Login";
 import LogOff from "./Components/LogOff";
