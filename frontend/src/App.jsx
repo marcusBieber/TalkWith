@@ -41,7 +41,6 @@ const MainComponent = ({ username, setUsername }) => {
         backgroundColor: darkMode ? "#151515" : "#ffffff",
         color: darkMode ? "#ffffff" : "#151515",
         padding: "15px",
-        marginTop: "20px"
       }}
     >
       {/* Überschrift/Login Bereich */}
