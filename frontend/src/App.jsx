@@ -67,7 +67,7 @@ const MainComponent = ({ username, setUsername }) => {
                 fontWeight: 100,
               }}
             >
-              ChatWith
+              Kaiwa
             </h1>
             <p
               style={{
