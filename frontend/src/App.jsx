@@ -86,7 +86,7 @@ const MainComponent = ({ username, setUsername }) => {
         </div>
       </div>
 
-      <div className="d-flex flex-grow-1" style={{ gap: "15px", paddingBottom: "20px" }}>
+      <div className="d-flex flex-grow-1" style={{ gap: "15px", paddingBottom: "15px", paddingTop:""}}>
         {/* Sidebar für die Benutzerliste */}
         <div
           className={`chat-history d-flex flex-column align-items-center ${

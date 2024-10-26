@@ -29,7 +29,7 @@ function UserDisplay() {
       padding: "15px",
 
     }}>
-      <div className="list-group" style={{ gap: "15px", fontFamily: "Inter, sans-serif",
+      <div className="list-group" style={{fontFamily: "Inter, sans-serif",
 
           fontWeight: 600,}}>
         {users.map((user, index) => (

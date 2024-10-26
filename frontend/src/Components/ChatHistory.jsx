@@ -62,7 +62,7 @@ function ChatHistory({ username }) {
         backgroundColor: darkMode ? "#242424" : "#EAEAEA",
         maxHeight: "calc(100vh - 160px)", 
         overflowY: "auto",
-        padding: "10px",
+        padding: "15px",
         borderRadius: "20px",
         border: darkMode ? "1px solid #555" : "1px solid #ccc",
         scrollbarWidth: "thin",
@@ -109,7 +109,7 @@ function ChatHistory({ username }) {
               }}
             >
               {msg.user}
-              <span style={{ fontSize: "8px" }}> {msg.timestamp}</span>
+              <span style={{ fontSize: "8px"}}> {msg.timestamp}</span>
             </p>
           </div>
         </div>
