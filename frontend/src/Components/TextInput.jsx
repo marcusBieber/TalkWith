@@ -1,5 +1,5 @@
 import { ColorContext } from "./ColorSwitcher";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { useSocket } from "./SocketProvider";
 import "../App.css";
 import CustomButton from "./CustomButton";
@@ -8,9 +8,14 @@ function TextInput({ username }) {
   const [message, setMessage] = useState("");
   const { darkMode } = useContext(ColorContext);
   const socket = useSocket(); // importieren der Socket-Verbindung
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [message]);
 
   // Nachrichten-Objekt konstruieren und ins Backend schicken
-  const sendMessage = () => {
+  function sendMessage() {
     if (socket) {
       // konstruieren eines Nachrichten-Objekts 
       // mit "id", "user", "text" und "timestamp"
@@ -18,13 +23,13 @@ function TextInput({ username }) {
         id: Date.now(),
         user: username,
         text: message,
-        timestamp: new Date().toString().slice(0, 21), // Use ISO format for better compatibility
+        timestamp: new Date().toString().slice(0, 21),
       };
       // senden des Nachrichten-Objekts über das "send_message"-Event
       socket.emit("send_message", messageData);
       setMessage("");
     }
-  };
+  }
 
   // States für Hover- und Active-Zustände
   const [isHovered] = useState(false);
@@ -34,6 +39,7 @@ function TextInput({ username }) {
       <textarea
         type="text"
         id="input"
+        ref={inputRef}
         placeholder="schreib' eine Nachricht..."
         value={message}
         className={`input-field ${darkMode ? "dark" : ""}`}

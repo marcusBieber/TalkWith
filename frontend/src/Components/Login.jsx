@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import AnimatedHeader from "./AnimatedHeader";
 import CustomButton from "./CustomButton";
 
@@ -8,6 +8,11 @@ import CustomButton from "./CustomButton";
 // wenn sich der Nutzer mit einem Benutzernamen angemeldet hat
 function Login({ onLogin }) {
   const [username, setUsername] = useState("");
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const handleLogin = () => {
     if (username.trim()) {
@@ -27,9 +32,11 @@ function Login({ onLogin }) {
             <input
               className="shadow"
               type="text"
-              placeholder="Benutzername..."
+              ref={inputRef}
+              placeholder="Wie ist dein Name...?"
               value={username}
               onChange={(event) => setUsername(event.target.value)}
+              onKeyDown={(event) => {if (event.key === "Enter") handleLogin()}}
               autoComplete="on"
               name="username"
               required
