@@ -1,4 +1,4 @@
-# TalkWith
+# Kaiwa
 
 Realtime Chat-App
 Dies ist ein Gemeinschaftsprojekt von: Ilona Görgens,
