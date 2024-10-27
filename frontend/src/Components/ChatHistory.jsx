@@ -48,14 +48,21 @@ function ChatHistory({ username }) {
     };
   }, [socket]);
 
+  useEffect(() => {
+    const lastMessageElement = document.querySelector(".last-message");
+    if (lastMessageElement) {
+      lastMessageElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]); 
+
   return (
-    <div
+    <div className="chat-history"
       style={{
         margin:"3px",
         backgroundColor: darkMode ? "#242424" : "#EAEAEA",
-        height: "650px",
-        overflowY: "scroll",
-        padding: "10px",
+        maxHeight: "calc(100vh - 160px)", 
+        overflowY: "auto",
+        padding: "15px",
         borderRadius: "20px",
         border: darkMode ? "1px solid #555" : "1px solid #ccc",
         scrollbarWidth: "thin",
@@ -63,16 +70,15 @@ function ChatHistory({ username }) {
         boxShadow: darkMode
           ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
           : "0px 4px 10px rgba(0, 0, 0, 0.1)", // Hellerer Schatten im hellen Modus
-          maxWidth: "100%",
       }}
-      className="scrollbar"
     >
-      {messages.map((msg) => (
+      {messages.map((msg,index) => (
         <div
           key={msg.id}
           className={`d-flex mb-2 ${
             msg.isUser ? "justify-content-end" : "justify-content-start"
-          }`}
+          }
+          ${index === messages.length - 1 ? "last-message" : ""}`} // Add "last-message" class to the last element`}
           style={{maxWidth: "100%",
             boxShadow: darkMode
               ? "0px 4px 10px rgba(0, 0, 0, 0.7)" // Dunklerer Schatten im Dunkelmodus
@@ -84,7 +90,7 @@ function ChatHistory({ username }) {
             style={{
               backgroundColor: msg.isUser
                 ? darkMode
-                  ? "#989898"
+                  ? "#606060"
                   : "#fefefe"
                 : darkMode
                 ? "#444444"
@@ -103,7 +109,7 @@ function ChatHistory({ username }) {
               }}
             >
               {msg.user}
-              <span style={{ fontSize: "8px" }}> {msg.timestamp}</span>
+              <span style={{ fontSize: "8px"}}> {msg.timestamp}</span>
             </p>
           </div>
         </div>

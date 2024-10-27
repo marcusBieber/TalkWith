@@ -8,7 +8,7 @@ import {
   ColorContext,
 } from "./Components/ColorSwitcher";
 import "./App.css";
-import { useContext, useState } from "react";
+import { useContext,useEffect, useRef, useState } from "react";
 import { SocketProvider } from "./Components/SocketProvider";
 import Login from "./Components/Login";
 import LogOff from "./Components/LogOff";
@@ -25,7 +25,6 @@ function App() {
           <MainComponent username={username} setUsername={setUsername} />
         </SocketProvider>
       )}
-      ;
     </ColorProvider>
   );
 }
@@ -50,9 +49,8 @@ const MainComponent = ({ username, setUsername }) => {
           borderRadius: "5px",
           backgroundColor: darkMode ? "#242424" : "#D9D9D9",
           color: darkMode ? "#ffffff" : "#000000",
-          padding: "10px",
-          margin: "3px", // Vereinheitlichung der Margen
-          width: "calc(100% - 6px)",
+          padding: "15px",
+
         }}
       >
         <div className="d-flex align-items-center justify-content-between">
@@ -88,10 +86,10 @@ const MainComponent = ({ username, setUsername }) => {
         </div>
       </div>
 
-      <div className="d-flex flex-grow-1 " style={{ gap: "15px", marginBottom: "15px", }}>
+      <div className="d-flex flex-grow-1" style={{ gap: "15px", paddingBottom: "15px", paddingTop:""}}>
         {/* Sidebar für die Benutzerliste */}
         <div
-          className={`sidebar d-flex flex-column align-items-center ${
+          className={`chat-history d-flex flex-column align-items-center ${
             darkMode ? "shadow" : "shadow-sm"
           }`}
           style={{
@@ -99,13 +97,9 @@ const MainComponent = ({ username, setUsername }) => {
             borderRadius: "5px",
             color: "#565353",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
-            marginBottom: "1px",
-            margin: "3px",
-            maxHeight: "calc(100vh - 125px)", 
-            flex: "0 0 250px", 
-            minWidth: "0",
-            
-
+            maxHeight: "calc(100vh - 75px)", 
+            flex: "0 1 250px", 
+            overflowY: "auto",
           }}
         >
           <div className="d-flex align-items-start justify-content-start">
@@ -115,7 +109,7 @@ const MainComponent = ({ username, setUsername }) => {
 
         {/* Chat-Historie */}
         <div
-          className={`chat-history flex-grow-1 ${
+          className={` flex-grow-1 ${
             darkMode ? "shadow" : "shadow-sm"
           }`}
           style={{
@@ -123,18 +117,15 @@ const MainComponent = ({ username, setUsername }) => {
             borderRadius: "5px",
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
             padding: "15px",
-            margin: "3px",
-            marginBottom: "15px", // Abstand zum unteren Ende der Website
             maxHeight: "calc(100vh - 125px)",
             display: "flex",
             flexDirection: "column",
-            flex: "1", // Flexgrow für die Chatbox
-            minWidth: "0",
+
           }}
         >
           <ChatHistory username={username} darkMode={darkMode} />
           {/* Texteingabe */}
-          <div className="mt-3" >
+          <div className="mt-3 flex-shrink-0" >
             <TextInput username={username} />
 
           </div>

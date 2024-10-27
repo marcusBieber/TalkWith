@@ -1,22 +1,35 @@
 html, body {
-  min-height: 100%; /* Setzt die Höhe von HTML und Body auf 100% */
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Deaktiviert das Scrollen */
-  max-height: 100vh;
+  overflow: clip; 
+  height: 100%;
 }
 
 .container-fluid {
-  min-height: 100vh;
+  height: 100%;
   display: flex; /* Flexbox für besseres Layout */
   flex-direction: row; /* Horizontale Anordnung */
   transition: background-color 0.3s ease;
 }
+.header-bar {
+  height: 75px; /* Höhe des Headers */
+}
+.main-content {
+  display: flex; /* Flex für die Hauptinhalte */
+  flex-grow: 1; /* Nimmt den verbleibenden Platz ein */
+  gap: 15px; /* Abstand zwischen den Spalten */
+  padding: 15px; /* Padding für die Hauptinhalte */
+}
 
 .sidebar {
   flex: 0 0 250px; /* Sidebar hat eine feste Breite */
-  min-height: auto; /* Höhe anpassen */
+  height: calc(100vh - 75px);
   overflow-y: auto; /* Ermöglicht Scrollen, wenn der Inhalt zu groß ist */
+}
+.chat-history, .user-display {
+  flex-grow: 1;
+  height: calc(100vh - 125px); /* Gleiche Höhe für beide Boxen */
+  overflow-y: auto;
 }
 
 /* Dunkles Design */
@@ -106,11 +119,6 @@ html, body {
 
   .sidebar {
     width: 100%; /* Sidebar passt sich an */
-  }
-
-  .chat-history {
-    margin-top: 10px; /* Abstand zur Sidebar */
-    min-height: 100vh; /* Nimmt den verbleibenden Platz ein */
   }
 
   .input-field {
