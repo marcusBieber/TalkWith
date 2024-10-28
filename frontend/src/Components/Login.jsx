@@ -46,7 +46,7 @@ function Login({ onLogin }) {
                 border: "1px solid #ccc",
                 backgroundColor: "#fff",
                 color: "#000",
-                width: "100%",
+                width: "300px",
                 margin: "20px 15px",
               }}
             />
