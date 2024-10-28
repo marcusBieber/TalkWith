@@ -25,7 +25,6 @@ function UserDisplay() {
       backgroundColor: darkMode ? "#242424" : "#D9D9D9",
       margin: "3px",
       maxHeight: "calc(100vh - 160px)", // Maximale Höhe entsprechend anpassen
-      overflowY: "auto",
       padding: "15px",
 
     }}>
