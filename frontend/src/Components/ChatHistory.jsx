@@ -22,7 +22,7 @@ function ChatHistory({ username }) {
           user: msg.username,
           text: msg.text,
           timestamp: msg.date,
-          isUser: msg.username === username, // // isUser is set to true if the message was sent by the user that is currently logged in
+          isUser: msg.username === username,
         }));
 
         // Add messages to state (setMessages(...))

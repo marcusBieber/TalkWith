@@ -12,6 +12,7 @@ import { useContext,useEffect, useRef, useState } from "react";
 import { SocketProvider } from "./Components/SocketProvider";
 import Login from "./Components/Login";
 import LogOff from "./Components/LogOff";
+import logo from "./Components/kaiwa-Logo.png"
 
 function App() {
   const [username, setUsername] = useState("");
@@ -56,17 +57,18 @@ const MainComponent = ({ username, setUsername }) => {
         <div className="d-flex align-items-center justify-content-between">
           <LogOff setUsername={setUsername} />
           <div className="d-flex flex-grow-1 justify-content-center align-items-end">
-            <h1
+          <img
+              src={logo}
+              alt="Kaiwa Logo"
               style={{
+                marginLeft:"100px",
+                width:"50px",
                 textShadow: darkMode
                   ? "2px 2px 4px rgba(255, 255, 255, 0.7)"
                   : "2px 2px 4px rgba(0, 0, 0, 0.5)",
-                fontFamily: "Inter, sans-serif",
-                fontWeight: 100,
               }}
-            >
-              Kaiwa
-            </h1>
+            />
+
             <p
               style={{
                 textShadow: darkMode
@@ -99,7 +101,6 @@ const MainComponent = ({ username, setUsername }) => {
             backgroundColor: darkMode ? "#242424" : "#D9D9D9",
             maxHeight: "calc(100vh - 75px)", 
             flex: "0 1 250px", 
-            overflowY: "auto",
           }}
         >
           <div className="d-flex align-items-start justify-content-start">

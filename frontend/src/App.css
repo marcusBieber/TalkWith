@@ -24,12 +24,10 @@ html, body {
 .sidebar {
   flex: 0 0 250px; /* Sidebar hat eine feste Breite */
   height: calc(100vh - 75px);
-  overflow-y: auto; /* Ermöglicht Scrollen, wenn der Inhalt zu groß ist */
 }
 .chat-history, .user-display {
   flex-grow: 1;
   height: calc(100vh - 125px); /* Gleiche Höhe für beide Boxen */
-  overflow-y: auto;
 }
 
 /* Dunkles Design */
