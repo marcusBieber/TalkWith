@@ -13,7 +13,7 @@ function ChatHistory({ username }) {
     // Fetch messages from database via /chat GET request and add to state
     async function getChatMessages() {
       try {
-        const response = await fetch("http://localhost:3000/chat");
+        const response = await fetch("http://18.194.62.73:3000/chat");
         const data = await response.json();
         console.log(data);
         // Convert messages into proper format (id, isUser, text, user, timestamp)
@@ -22,7 +22,7 @@ function ChatHistory({ username }) {
           user: msg.username,
           text: msg.text,
           timestamp: msg.date,
-          isUser: msg.username === username, // // isUser is set to true if the message was sent by the user that is currently logged in
+          isUser: msg.username === username,
         }));
 
         // Add messages to state (setMessages(...))
