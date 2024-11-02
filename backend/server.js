@@ -86,6 +86,22 @@ app.post("/message", async (req, res) => {
   }
 });
 
+// PUT-Endpoint zum Aktualisieren von Nachrichten
+app.put("/message/:id", async (req, res) => {
+  const { id } = req.params; // Die ID aus der URL entnehmen
+  const { text } = req.body; // Den neuen Nachrichteninhalt aus dem Request-Body entnehmen
+
+  try {
+    // Hier musst du die Logik zum Aktualisieren der Nachricht in deiner Datenbank hinzufügen
+    await updateChatMessage(id, text); // Beispiel-Funktion, die du implementieren musst
+    res.status(200).send({ message: "Nachricht erfolgreich aktualisiert!" }); // Erfolgreiche Antwort
+  } catch (error) {
+    console.error("Fehler beim Aktualisieren der Nachricht:", error);
+    res.status(500).send("Fehler beim Aktualisieren der Nachricht"); // Fehlerbehandlung
+  }
+});
+
+
 server.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
 });
