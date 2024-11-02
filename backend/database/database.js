@@ -106,3 +106,20 @@ export function resetDatabase() {
         });
     });
 }
+
+// Update an existing chat message
+export function updateChatMessage(id, username, text) {
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE chatmessages SET text = ?, username = ? WHERE id = ?`, 
+               [text, username, id], function (err) {
+            if (err) {
+                return reject(`Error updating data: ${err.message}`);
+            }
+            // Überprüfe, ob eine Zeile aktualisiert wurde
+            if (this.changes === 0) {
+                return reject("Message not found.");
+            }
+            resolve("Message updated successfully.");
+        });
+    });
+}
