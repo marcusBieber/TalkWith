@@ -39,11 +39,11 @@ const db = initializeDatabase();
 // Add a new chat message
 export function addChatMessage(username, text,id,timestamp) {
     return new Promise((resolve, reject) => {
-        if (!username || !text || !id || !timestamp) {
+        if (!username || !text || !timestamp) {
             return reject("One of the fields was empty.");
         }
-        db.run(`INSERT INTO chatmessages (id, text, date, username) VALUES (?, ?, ?, ?)`, 
-               [id, text, timestamp, username], (err) => {
+        db.run(`INSERT INTO chatmessages (id, text, date, username) VALUES (?, ?, ?)`, 
+               [text, timestamp, username], (err) => {
             if (err) {
                 return reject(`Error inserting data: ${err.message}`);
             }
@@ -107,18 +107,19 @@ export function resetDatabase() {
     });
 }
 
-// Add a new chat message without expecting an ID from the user
-export function addChatMessage(username, text, timestamp) {
+// Update an existing chat message
+export function updateChatMessage(id, text) {
     return new Promise((resolve, reject) => {
-        if (!username || !text || !timestamp) {
-            return reject("One of the fields was empty.");
-        }
-        db.run(`INSERT INTO chatmessages (text, date, username) VALUES (?, ?, ?)`, 
-               [text, timestamp, username], function(err) {
+        db.run(`UPDATE chatmessages SET text = ? WHERE id = ?`, 
+               [text, id], function (err) {
             if (err) {
-                return reject(`Error inserting data: ${err.message}`);
+                return reject(`Error updating data: ${err.message}`);
             }
-            resolve({ message: "Data inserted successfully.", id: this.lastID }); // ID der eingefügten Nachricht zurückgeben
+            // Überprüfe, ob eine Zeile aktualisiert wurde
+            if (this.changes === 0) {
+                return reject("Message not found.");
+            }
+            resolve("Message updated successfully.");
         });
     });
 }
