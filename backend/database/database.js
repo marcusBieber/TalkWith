@@ -107,19 +107,19 @@ export function resetDatabase() {
     });
 }
 
-// Update an existing chat message
-export function updateChatMessage(id, username, text) {
+// Add a new chat message without expecting an ID from the user
+export function addChatMessage(username, text, timestamp) {
     return new Promise((resolve, reject) => {
-        db.run(`UPDATE chatmessages SET text = ?, username = ? WHERE id = ?`, 
-               [text, username, id], function (err) {
+        if (!username || !text || !timestamp) {
+            return reject("One of the fields was empty.");
+        }
+        db.run(`INSERT INTO chatmessages (text, date, username) VALUES (?, ?, ?)`, 
+               [text, timestamp, username], function(err) {
             if (err) {
-                return reject(`Error updating data: ${err.message}`);
+                return reject(`Error inserting data: ${err.message}`);
             }
-            // Überprüfe, ob eine Zeile aktualisiert wurde
-            if (this.changes === 0) {
-                return reject("Message not found.");
-            }
-            resolve("Message updated successfully.");
+            resolve({ message: "Data inserted successfully.", id: this.lastID }); // ID der eingefügten Nachricht zurückgeben
         });
     });
 }
+

@@ -41,14 +41,13 @@ io.on("connection", (socket) => {
     console.log(`Nachricht von ${socket.username}:`, messageData);
     try {
       // Add the chat message to the database
-      await addChatMessage(messageData.user, messageData.text, messageData.id, messageData.timestamp);
+      await addChatMessage(messageData.user, messageData.text, messageData.timestamp);
       console.log("Message added to database");
       // Broadcast the message to other clients
+      io.emit("receive_message", messageData);
     } catch (error) {
       console.error("Error processing message:", error);
     }
-    // Daten über das "receive_message"-Event ins Frontend senden
-    io.emit("receive_message", messageData);
   });
 
   // Benutzerliste altualisieren wenn ein Benutzer die Verbindung trennt
@@ -74,11 +73,11 @@ app.get("/chat", async (req, res) => {
 
 // POST-Endpoint zum Senden von Nachrichten
 app.post("/message", async (req, res) => {
-  const { user, text, id } = req.body; // Die Daten aus dem Request-Body entnehmen
+  const { user, text} = req.body; // Die Daten aus dem Request-Body entnehmen
 
   try {
     const timestamp = new Date().toISOString(); // Setze den aktuellen Zeitstempel
-    await addChatMessage(user, text, id, timestamp); // Nachricht in die Datenbank einfügen
+    await addChatMessage(user, text, timestamp); // Nachricht in die Datenbank einfügen
     res.status(201).send({ message: "Nachricht erfolgreich gesendet!" }); // Erfolgreiche Antwort
   } catch (error) {
     console.error("Fehler beim Senden der Nachricht:", error);
@@ -89,10 +88,10 @@ app.post("/message", async (req, res) => {
 // PUT-Endpoint zum Aktualisieren von Nachrichten
 app.put("/message/:id", async (req, res) => {
   const { id } = req.params; // Die ID aus der URL entnehmen
-  const { text } = req.body; // Den neuen Nachrichteninhalt aus dem Request-Body entnehmen
+  const { text } = req.body; // Den neuen Nachrichteninhalt und den Benutzernamen aus dem Request-Body entnehmen
 
   try {
-    // Hier musst du die Logik zum Aktualisieren der Nachricht in deiner Datenbank hinzufügen
+    // Aktualisiere die Nachricht in der Datenbank
     await updateChatMessage(id, text); // Beispiel-Funktion, die du implementieren musst
     res.status(200).send({ message: "Nachricht erfolgreich aktualisiert!" }); // Erfolgreiche Antwort
   } catch (error) {
@@ -100,6 +99,7 @@ app.put("/message/:id", async (req, res) => {
     res.status(500).send("Fehler beim Aktualisieren der Nachricht"); // Fehlerbehandlung
   }
 });
+
 
 
 server.listen(port, () => {
