@@ -72,6 +72,20 @@ app.get("/chat", async (req, res) => {
   }
 });
 
+// POST-Endpoint zum Senden von Nachrichten
+app.post("/message", async (req, res) => {
+  const { user, text, id } = req.body; // Die Daten aus dem Request-Body entnehmen
+
+  try {
+    const timestamp = new Date().toISOString(); // Setze den aktuellen Zeitstempel
+    await addChatMessage(user, text, id, timestamp); // Nachricht in die Datenbank einfügen
+    res.status(201).send({ message: "Nachricht erfolgreich gesendet!" }); // Erfolgreiche Antwort
+  } catch (error) {
+    console.error("Fehler beim Senden der Nachricht:", error);
+    res.status(500).send("Fehler beim Senden der Nachricht"); // Fehlerbehandlung
+  }
+});
+
 server.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
 });
