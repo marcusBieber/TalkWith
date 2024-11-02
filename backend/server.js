@@ -93,7 +93,7 @@ app.put("/message/:id", async (req, res) => {
   try {
       // Aktualisiere die Nachricht in der Datenbank
       await updateChatMessage(id, text);
-      res.status(200).send({ message: "Nachricht erfolgreich gesendet!" }); // Ändere hier die Antwort
+      res.status(200).send({ message: "Nachricht erfolgreich aktualisiert!" }); // Ändere hier die Antwort
   } catch (error) {
       console.error("Fehler beim Aktualisieren der Nachricht:", error);
       res.status(500).send("Fehler beim Aktualisieren der Nachricht");
